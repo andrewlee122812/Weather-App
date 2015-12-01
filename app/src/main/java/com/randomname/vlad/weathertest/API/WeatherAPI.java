@@ -35,7 +35,7 @@ public interface WeatherAPI {
     @Headers("Content-Type: application/json")
     @GET(FORECAST)
     void getForecast(
-            @Query("q") String city,
+            @Query("id") long cityId,
             @Query("appId") String appId,
             @Query("cnt") int dayCount,
             Callback<Forecast> callback

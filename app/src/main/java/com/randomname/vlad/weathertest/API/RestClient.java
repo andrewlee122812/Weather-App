@@ -62,8 +62,8 @@ public class RestClient {
         mApi.getCurrentWeather(city, mContext.getString(R.string.weather_api_key), callback);
     }
 
-    public void getForecast(String city, int dayCount, retrofit.Callback<Forecast> callback) {
-        mApi.getForecast(city, mContext.getString(R.string.weather_api_key), dayCount, callback);
+    public void getForecast(long cityId, int dayCount, retrofit.Callback<Forecast> callback) {
+        mApi.getForecast(cityId, mContext.getString(R.string.weather_api_key), dayCount, callback);
     }
 
     public void getGroupWeather(String citiesGroup, retrofit.Callback<GroupWeatherResponse> callback) {
