@@ -20,6 +20,7 @@ import com.randomname.vlad.weathertest.Model.BaseResponse;
 import com.randomname.vlad.weathertest.Model.Forecast;
 import com.randomname.vlad.weathertest.Model.ForecastListItem;
 import com.randomname.vlad.weathertest.R;
+import com.randomname.vlad.weathertest.Views.SpaceItemDecorator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,6 +67,7 @@ public class DetailWeatherFragment extends Fragment{
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(adapter);
+        recyclerView.addItemDecoration(new SpaceItemDecorator(4));
 
         getWeatherInfo();
 
