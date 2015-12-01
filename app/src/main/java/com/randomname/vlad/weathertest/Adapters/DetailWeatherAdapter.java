@@ -1,6 +1,7 @@
 package com.randomname.vlad.weathertest.Adapters;
 
 import android.content.Context;
+import android.media.Image;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateFormat;
 import android.util.Log;
@@ -89,10 +90,38 @@ public class DetailWeatherAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
     private void onBindHeaderViewHolder(RecyclerView.ViewHolder holder) {
+        if (baseResponseHeaderInfo == null) {
+            return;
+        }
+
         HeaderViewHolder customViewHolder = (HeaderViewHolder) holder;
 
-        if (baseResponseHeaderInfo != null) {
-            customViewHolder.cityNameTextView.setText(baseResponseHeaderInfo.getDisplayName());
+        String name = baseResponseHeaderInfo.getDisplayName();
+        String dateString = DateFormat.format("dd MMMM kk:mm", new Date(baseResponseHeaderInfo.getDt() * 1000)).toString();
+        List<Weather> weatherList = baseResponseHeaderInfo.getWeather();
+        String description = "";
+        String iconURL = "";
+        String temperature = Math.round(baseResponseHeaderInfo.getMain().getTemp()) + " \u2103";
+
+        if (weatherList.size() > 0) {
+            Weather weather = weatherList.get(0);
+
+            description = weather.getDescription();
+
+            if (!weather.getIcon().isEmpty()) {
+                iconURL = "http://openweathermap.org/img/w/" + weather.getIcon() + ".png";
+            }
+        }
+
+        customViewHolder.cityNameTextView.setText(name);
+        customViewHolder.dateTextView.setText(dateString);
+        customViewHolder.descriptionTextView.setText(description);
+        customViewHolder.temperatureTextView.setText(temperature);
+
+        if (!iconURL.isEmpty()) {
+            Picasso.with(mContext).load(iconURL).into(customViewHolder.weatherIconImageView);
+        } else {
+            customViewHolder.weatherIconImageView.setImageResource(android.R.color.transparent);
         }
     }
 
@@ -100,12 +129,11 @@ public class DetailWeatherAdapter extends RecyclerView.Adapter<RecyclerView.View
         ForecastViewHolder viewHolder = (ForecastViewHolder) holder;
         ForecastListItem item = forecastListItems.get(position);
 
-        String temperature = item.getTemp().getMax() + "";
+        String temperature = Math.round(item.getTemp().getMax()) + " \u2103";
         String dateString = DateFormat.format("dd MMMM kk:mm", new Date(item.getDt() * 1000)).toString();
 
         viewHolder.temperatureTextView.setText(temperature);
         viewHolder.dateTextView.setText(dateString);
-
     }
 
     @Override
@@ -124,11 +152,16 @@ public class DetailWeatherAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
     public class HeaderViewHolder extends RecyclerView.ViewHolder {
-        protected TextView cityNameTextView;
+        protected TextView cityNameTextView, dateTextView, descriptionTextView, temperatureTextView;
+        protected ImageView weatherIconImageView;
 
         public HeaderViewHolder(View view) {
             super(view);
             cityNameTextView = (TextView) view.findViewById(R.id.city_name_text_view);
+            dateTextView = (TextView) view.findViewById(R.id.date_text_view);
+            descriptionTextView = (TextView) view.findViewById(R.id.description_text_view);
+            temperatureTextView = (TextView) view.findViewById(R.id.temperature_text_view);
+            weatherIconImageView = (ImageView) view.findViewById(R.id.weather_icon_image_view);
         }
     }
 }

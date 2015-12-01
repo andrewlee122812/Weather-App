@@ -1,20 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:padding="16dp"
+    >
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/temperature_text_view"
+        android:text="10C"
         />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/date_text_view"
-        />
+        android:text="11.06.2015"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/temperature_text_view"
+        android:layout_toEndOf="@+id/temperature_text_view"
+        android:layout_marginLeft="41dp"
+        android:layout_marginStart="41dp" />
 
-</LinearLayout>
+</RelativeLayout>

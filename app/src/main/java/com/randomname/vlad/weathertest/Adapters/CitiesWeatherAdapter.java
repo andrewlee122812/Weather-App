@@ -55,7 +55,7 @@ public class CitiesWeatherAdapter extends RecyclerView.Adapter<RecyclerView.View
         List<Weather> weatherList = baseResponse.getWeather();
         String description = "";
         String iconURL = "";
-        String temperature = baseResponse.getMain().getTemp() + "";
+        String temperature = Math.round(baseResponse.getMain().getTemp()) + " \u2103";
 
         if (weatherList.size() > 0) {
             Weather weather = weatherList.get(0);

@@ -20,6 +20,7 @@ import com.randomname.vlad.weathertest.Model.BaseResponse;
 import com.randomname.vlad.weathertest.Model.City;
 import com.randomname.vlad.weathertest.Model.GroupWeatherResponse;
 import com.randomname.vlad.weathertest.R;
+import com.randomname.vlad.weathertest.Views.SpaceItemDecorator;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -79,6 +80,7 @@ public class CitiesWeatherListFragment extends Fragment{
 
         citiesRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         citiesRecyclerView.setAdapter(adapter);
+        citiesRecyclerView.addItemDecoration(new SpaceItemDecorator(4));
 
         getCitiesFromRealm();
         return view;
