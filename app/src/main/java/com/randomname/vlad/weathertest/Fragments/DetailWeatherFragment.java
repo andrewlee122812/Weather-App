@@ -10,14 +10,19 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.randomname.vlad.weathertest.API.RestClient;
+import com.randomname.vlad.weathertest.Activities.DetailActivity;
 import com.randomname.vlad.weathertest.MainActivity;
+import com.randomname.vlad.weathertest.Model.BaseResponse;
 import com.randomname.vlad.weathertest.Model.Forecast;
 import com.randomname.vlad.weathertest.Model.ForecastListItem;
 import com.randomname.vlad.weathertest.R;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import io.realm.Realm;
 import io.realm.RealmList;
+import io.realm.RealmQuery;
+import io.realm.RealmResults;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -42,27 +47,19 @@ public class DetailWeatherFragment extends Fragment{
         return view;
     }
 
-    private void updateUI(Forecast forecast) {
-        cityTextView.setText(currentCity);
-
-        RealmList<ForecastListItem> forecastListItems = forecast.getList();
-
-        for (ForecastListItem item : forecastListItems) {
-
-        }
+    private void updateHeaderUI(BaseResponse baseResponse) {
+        cityTextView.setText(baseResponse.getDisplayName());
     }
 
     private void getWeatherInfo() {
-        RestClient.getInstance(getActivity()).getForecast(currentCity, 16, new Callback<Forecast>() {
-            @Override
-            public void success(Forecast forecast, Response response) {
-                updateUI(forecast);
-            }
+        Realm realm = Realm.getInstance(getActivity());
+        RealmQuery<BaseResponse> query = realm.where(BaseResponse.class);
 
-            @Override
-            public void failure(RetrofitError error) {
-                Log.e(TAG, error.toString());
-            }
-        });
+        query.equalTo("id", getActivity().getIntent().getLongExtra(DetailActivity.BASE_RESPONSE_EXTRA, 0));
+
+        RealmResults<BaseResponse> baseResponses = query.findAll();
+        if (baseResponses.size() > 0) {
+            updateHeaderUI(baseResponses.get(0));
+        }
     }
 }

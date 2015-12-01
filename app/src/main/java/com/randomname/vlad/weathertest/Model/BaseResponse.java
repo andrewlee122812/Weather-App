@@ -2,6 +2,7 @@ package com.randomname.vlad.weathertest.Model;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 public class BaseResponse extends RealmObject {
 
@@ -13,6 +14,7 @@ public class BaseResponse extends RealmObject {
     private Wind wind;
     private Clouds clouds;
     private long dt;
+    @PrimaryKey
     private long id;
     private String name = "";
     private String displayName = "";

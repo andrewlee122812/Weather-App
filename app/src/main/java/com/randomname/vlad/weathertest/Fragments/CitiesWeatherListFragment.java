@@ -1,5 +1,6 @@
 package com.randomname.vlad.weathertest.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.randomname.vlad.weathertest.API.RestClient;
+import com.randomname.vlad.weathertest.Activities.DetailActivity;
 import com.randomname.vlad.weathertest.Adapters.CitiesWeatherAdapter;
 import com.randomname.vlad.weathertest.Model.BaseResponse;
 import com.randomname.vlad.weathertest.Model.City;
@@ -32,7 +34,7 @@ import retrofit.client.Response;
 public class CitiesWeatherListFragment extends Fragment{
     private static final String TAG = "cities weather list";
 
-    @Bind(R.id.cities_recycler_view)
+    @Bind(R.id.cities_fragment_recycler_view)
     RecyclerView citiesRecyclerView;
 
     private CitiesWeatherAdapter adapter;
@@ -60,7 +62,9 @@ public class CitiesWeatherListFragment extends Fragment{
                 int position = citiesRecyclerView.getChildAdapterPosition(v);
                 BaseResponse baseResponse = baseResponseArrayList.get(position);
 
-                Toast.makeText(getActivity(), baseResponse.getDisplayName(), Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getActivity(), DetailActivity.class);
+                intent.putExtra(DetailActivity.BASE_RESPONSE_EXTRA, baseResponse.getId());
+                startActivity(intent);
             }
         });
 
@@ -87,9 +91,15 @@ public class CitiesWeatherListFragment extends Fragment{
         RestClient.getInstance(getActivity()).getGroupWeather(cities, new Callback<GroupWeatherResponse>() {
             @Override
             public void success(GroupWeatherResponse groupWeatherResponse, Response response) {
+                Realm realm = Realm.getInstance(getActivity());
+
                 for (BaseResponse baseResponse : groupWeatherResponse.getList()) {
                     baseResponse.setDisplayName(nameHashMap.get(baseResponse.getId()));
                 }
+
+                realm.beginTransaction();
+                realm.copyToRealmOrUpdate(groupWeatherResponse.getList());
+                realm.commitTransaction();
 
                 baseResponseArrayList.addAll(groupWeatherResponse.getList());
                 adapter.notifyDataSetChanged();

@@ -1,11 +1,13 @@
 package com.randomname.vlad.weathertest.Model;
 
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 public class City extends RealmObject{
     public City() {
     }
 
+    @PrimaryKey
     private long id = 0;
     private String name = "";
     private String displayName = "";

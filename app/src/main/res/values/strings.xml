@@ -6,4 +6,5 @@
 
     <string name="weather_api_key">46c6db58b61ac29d0c2986240b230924</string>
     <string name="title_activity_launcher">LauncherActivity</string>
+    <string name="title_activity_detail">DetailActivity</string>
 </resources>
