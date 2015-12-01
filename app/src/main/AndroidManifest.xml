@@ -28,6 +28,10 @@
             android:name=".Activities.DetailActivity"
             android:label="@string/title_activity_detail" >
         </activity>
+        <activity
+            android:name=".Activities.AddCityActivity"
+            android:label="@string/title_activity_add_city" >
+        </activity>
     </application>
 
 </manifest>
