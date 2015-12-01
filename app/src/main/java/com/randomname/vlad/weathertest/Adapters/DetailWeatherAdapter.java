@@ -100,7 +100,11 @@ public class DetailWeatherAdapter extends RecyclerView.Adapter<RecyclerView.View
         ForecastViewHolder viewHolder = (ForecastViewHolder) holder;
         ForecastListItem item = forecastListItems.get(position);
 
-        viewHolder.temperatureTextView.setText(item.getTemp().getMax() + "");
+        String temperature = item.getTemp().getMax() + "";
+        String dateString = DateFormat.format("dd MMMM kk:mm", new Date(item.getDt() * 1000)).toString();
+
+        viewHolder.temperatureTextView.setText(temperature);
+        viewHolder.dateTextView.setText(dateString);
 
     }
 
@@ -110,11 +114,12 @@ public class DetailWeatherAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
     public class ForecastViewHolder extends RecyclerView.ViewHolder {
-        protected TextView temperatureTextView;
+        protected TextView temperatureTextView, dateTextView;
 
         public ForecastViewHolder(View view) {
             super(view);
             temperatureTextView = (TextView) view.findViewById(R.id.temperature_text_view);
+            dateTextView = (TextView) view.findViewById(R.id.date_text_view);
         }
     }
 

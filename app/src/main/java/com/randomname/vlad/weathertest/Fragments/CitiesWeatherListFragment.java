@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.randomname.vlad.weathertest.API.RestClient;
 import com.randomname.vlad.weathertest.Activities.DetailActivity;
@@ -37,8 +36,13 @@ public class CitiesWeatherListFragment extends Fragment{
     @Bind(R.id.cities_fragment_recycler_view)
     RecyclerView citiesRecyclerView;
 
+    private String cities = ""; // here we have our cities id's
+    private HashMap<Long, String> nameHashMap; // hash map with city id | city name. Bad, but don't know how to do it better
+
     private CitiesWeatherAdapter adapter;
     private ArrayList<BaseResponse> baseResponseArrayList;
+
+    private Realm realm;
 
     public CitiesWeatherListFragment() {
     }
@@ -48,6 +52,7 @@ public class CitiesWeatherListFragment extends Fragment{
         super.onCreate(savedInstanceState);
 
         baseResponseArrayList = new ArrayList<>();
+        realm = Realm.getInstance(getActivity());
     }
 
     @Override
@@ -76,18 +81,31 @@ public class CitiesWeatherListFragment extends Fragment{
     }
 
     private void getCitiesFromRealm() {
-        Realm realm = Realm.getInstance(getActivity());
+        cities = "";
+
         RealmQuery<City> query = realm.where(City.class);
         RealmResults<City> result = query.findAll();
-        final HashMap<Long, String> nameHashMap = new HashMap<>();
-
-        String cities = "";
+        nameHashMap = new HashMap<>();
 
         for (City city : result) {
             cities += city.getId() + ",";
             nameHashMap.put(city.getId(), city.getDisplayName());
         }
 
+        loadWeatherFromRealm();
+        loadWeatherViaNetwork();
+    }
+
+    private void loadWeatherFromRealm() {
+        RealmQuery<BaseResponse> query = realm.where(BaseResponse.class);
+        RealmResults<BaseResponse> result = query.findAll();
+
+        baseResponseArrayList.clear();
+        baseResponseArrayList.addAll(result);
+        adapter.notifyDataSetChanged();
+    }
+
+    private void loadWeatherViaNetwork() {
         RestClient.getInstance(getActivity()).getGroupWeather(cities, new Callback<GroupWeatherResponse>() {
             @Override
             public void success(GroupWeatherResponse groupWeatherResponse, Response response) {
@@ -101,6 +119,7 @@ public class CitiesWeatherListFragment extends Fragment{
                 realm.copyToRealmOrUpdate(groupWeatherResponse.getList());
                 realm.commitTransaction();
 
+                baseResponseArrayList.clear();
                 baseResponseArrayList.addAll(groupWeatherResponse.getList());
                 adapter.notifyDataSetChanged();
             }

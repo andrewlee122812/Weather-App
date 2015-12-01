@@ -2,11 +2,15 @@ package com.randomname.vlad.weathertest.Model;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 public class ForecastListItem extends RealmObject{
     public ForecastListItem() {
     }
 
+    @PrimaryKey
+    private String itemId = ""; // We setting this field by hands, not getting from server
+    private long cityId = 0;
     private long dt = 0;
     private Temp temp;
     private float pressure = 0f;
@@ -78,5 +82,21 @@ public class ForecastListItem extends RealmObject{
 
     public int getClouds() {
         return clouds;
+    }
+
+    public void setItemId(String itemId) {
+        this.itemId = itemId;
+    }
+
+    public String getItemId() {
+        return itemId;
+    }
+
+    public void setCityId(long cityId) {
+        this.cityId = cityId;
+    }
+
+    public long getCityId() {
+        return cityId;
     }
 }

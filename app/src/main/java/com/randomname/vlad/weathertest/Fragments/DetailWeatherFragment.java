@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.randomname.vlad.weathertest.API.RestClient;
 import com.randomname.vlad.weathertest.Activities.DetailActivity;
@@ -21,6 +22,7 @@ import com.randomname.vlad.weathertest.Model.ForecastListItem;
 import com.randomname.vlad.weathertest.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -35,6 +37,9 @@ import retrofit.client.Response;
 public class DetailWeatherFragment extends Fragment{
     private final static String TAG = "detail weather tag";
 
+    private long cityId;
+    private Realm realm;
+
     @Bind(R.id.detail_recycler_view)
     RecyclerView recyclerView;
 
@@ -48,6 +53,8 @@ public class DetailWeatherFragment extends Fragment{
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         forecastListItems = new ArrayList<>();
+        cityId = getActivity().getIntent().getLongExtra(DetailActivity.BASE_RESPONSE_EXTRA, -1);
+        realm = Realm.getInstance(getActivity());
     }
 
     @Override
@@ -70,28 +77,53 @@ public class DetailWeatherFragment extends Fragment{
         adapter.notifyItemChanged(0);
     }
 
-    private void updateForecastUI(Forecast forecast) {
+    private void updateForecastUI( List<ForecastListItem> list) {
         forecastListItems.clear();
-        forecastListItems.addAll(forecast.getList());
+        forecastListItems.addAll(list);
         adapter.notifyDataSetChanged();
     }
 
     private void getWeatherInfo() {
-        Realm realm = Realm.getInstance(getActivity());
         RealmQuery<BaseResponse> query = realm.where(BaseResponse.class);
-        long cityId = getActivity().getIntent().getLongExtra(DetailActivity.BASE_RESPONSE_EXTRA, -1);
 
         query.equalTo("id", cityId);
 
         RealmResults<BaseResponse> baseResponses = query.findAll();
         if (baseResponses.size() > 0) {
             updateHeaderUI(baseResponses.get(0));
+            getActivity().setTitle(baseResponses.get(0).getDisplayName());
         }
 
+        getWeatherInfoFromRealm();
+        getWeatherInfoViaNetwork();
+    }
+
+    private void getWeatherInfoFromRealm() {
+        RealmQuery<ForecastListItem> query = realm.where(ForecastListItem.class);
+        query.equalTo("cityId", cityId);
+        RealmResults<ForecastListItem> result = query.findAll();
+
+        updateForecastUI(result);
+    }
+
+    private void getWeatherInfoViaNetwork() {
         RestClient.getInstance(getActivity()).getForecast(cityId, 16, new Callback<Forecast>() {
             @Override
             public void success(Forecast forecast, Response response) {
-                updateForecastUI(forecast);
+                List<ForecastListItem> list = forecast.getList();
+                ForecastListItem item = null;
+
+                for (int i = 0; i < list.size(); i++) {
+                    item = list.get(i);
+                    item.setItemId(cityId + "_" + i);
+                    item.setCityId(cityId);
+                }
+
+                realm.beginTransaction();
+                realm.copyToRealmOrUpdate(list);
+                realm.commitTransaction();
+
+                updateForecastUI(list);
             }
 
             @Override
