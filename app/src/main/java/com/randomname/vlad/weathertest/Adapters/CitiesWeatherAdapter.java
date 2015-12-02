@@ -95,7 +95,6 @@ public class CitiesWeatherAdapter extends RecyclerView.Adapter<RecyclerView.View
         String unitString = mContext.getResources().getStringArray(R.array.pressure_settings_entries)[unitType - 1];
 
         String name = baseResponse.getDisplayName();
-        String dateString = DateFormat.format("dd MMMM kk:mm", new Date(baseResponse.getDt() * 1000)).toString();
         String sunRiseString = DateFormat.format("kk:mm", new Date(baseResponse.getSys().getSunrise() * 1000)).toString();
         String sunSetString = DateFormat.format("kk:mm", new Date(baseResponse.getSys().getSunset() * 1000)).toString();
         List<Weather> weatherList = baseResponse.getWeather();
@@ -141,7 +140,6 @@ public class CitiesWeatherAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         CustomViewHolder customViewHolder = (CustomViewHolder) holder;
         customViewHolder.cityName.setText(name);
-        customViewHolder.dateTextView.setText(dateString);
         customViewHolder.descriptionTextView.setText(description);
         customViewHolder.temperatureTextView.setText(temperature);
         customViewHolder.pressureTextView.setText(pressureString);
@@ -163,14 +161,13 @@ public class CitiesWeatherAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
     public class CustomViewHolder extends RecyclerView.ViewHolder {
-        protected TextView cityName, dateTextView, descriptionTextView, temperatureTextView, pressureTextView, humidityTextView;
+        protected TextView cityName, descriptionTextView, temperatureTextView, pressureTextView, humidityTextView;
         protected TextView windTextView, sunRiseTextView, sunSetTextView;
         protected ImageView weatherIcon;
 
         public CustomViewHolder(View view) {
             super(view);
             cityName = (TextView) view.findViewById(R.id.city_name_text_view);
-            dateTextView = (TextView) view.findViewById(R.id.date_text_view);
             descriptionTextView = (TextView) view.findViewById(R.id.description_text_view);
             temperatureTextView = (TextView) view.findViewById(R.id.temperature_text_view);
             pressureTextView = (TextView) view.findViewById(R.id.pressure_text_view);
