@@ -98,6 +98,12 @@ public class CitiesWeatherListFragment extends Fragment{
         return view;
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        realm.close();
+    }
+
     public void setSearchQuery(String string) {
         adapter.setFilter(string);
     }
@@ -135,7 +141,6 @@ public class CitiesWeatherListFragment extends Fragment{
         RestClient.getInstance(getActivity()).getGroupWeather(cities, new Callback<GroupWeatherResponse>() {
             @Override
             public void success(GroupWeatherResponse groupWeatherResponse, Response response) {
-                Realm realm = Realm.getInstance(getActivity());
 
                 for (BaseResponse baseResponse : groupWeatherResponse.getList()) {
                     baseResponse.setDisplayName(nameHashMap.get(baseResponse.getId()));

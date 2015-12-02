@@ -19,6 +19,7 @@ public class BaseResponse extends RealmObject {
     private long id;
     private String name = "";
     private String displayName = "";
+    private String cod = "200";
 
     public void setWeather(RealmList<Weather> weathers) {
         this.weather = weathers;
@@ -90,5 +91,13 @@ public class BaseResponse extends RealmObject {
 
     public Sys getSys() {
         return sys;
+    }
+
+    public void setCod(String cod) {
+        this.cod = cod;
+    }
+
+    public String getCod() {
+        return cod;
     }
 }

@@ -159,6 +159,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onAnimationStart(Animator animation) {
                 circleRevealView.setVisibility(View.VISIBLE);
+                circleRevealView.setClickable(true);
             }
 
             @Override

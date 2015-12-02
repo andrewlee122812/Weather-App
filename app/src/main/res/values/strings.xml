@@ -27,4 +27,5 @@
     <string name="pressure_value_settings_summary">Select pressure measure units</string>
     <string name="moscow_display_name">Moscow</string>
     <string name="sp_display_name">Saint Petersburg</string>
+    <string name="add_city_edit_text_hint">Type new city name</string>
 </resources>

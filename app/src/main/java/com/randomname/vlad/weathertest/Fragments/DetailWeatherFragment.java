@@ -71,6 +71,12 @@ public class DetailWeatherFragment extends Fragment{
         return view;
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        realm.close();
+    }
+
     private void updateHeaderUI(BaseResponse baseResponse) {
         adapter.setHeaderInfo(baseResponse);
         adapter.notifyItemChanged(0);
