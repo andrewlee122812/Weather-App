@@ -34,12 +34,12 @@ public class LauncherActivity extends AppCompatActivity {
         if (result.size() == 0) {
             realm.beginTransaction();
             city = realm.createObject(City.class);
-            city.setDisplayName("Москва");
+            city.setDisplayName("Moscow");
             city.setId(524901);
             city.setName("Moscow");
 
             city = realm.createObject(City.class);
-            city.setDisplayName("Санкт-Петербург");
+            city.setDisplayName("Novaya Gollandiya");
             city.setId(519690);
             city.setName("Novaya Gollandiya");
             realm.commitTransaction();

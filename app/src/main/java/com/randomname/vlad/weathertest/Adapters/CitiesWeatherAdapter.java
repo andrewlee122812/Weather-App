@@ -1,6 +1,8 @@
 package com.randomname.vlad.weathertest.Adapters;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
@@ -49,6 +51,9 @@ public class CitiesWeatherAdapter extends RecyclerView.Adapter<RecyclerView.View
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         BaseResponse baseResponse = baseResponseList.get(position);
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(mContext);
+        int unitType = Integer.parseInt(sharedPref.getString("pressure_units", "1"));
+        String unitString = mContext.getResources().getStringArray(R.array.pressure_settings_entries)[unitType - 1];
 
         String name = baseResponse.getDisplayName();
         String dateString = DateFormat.format("dd MMMM kk:mm", new Date(baseResponse.getDt() * 1000)).toString();
@@ -56,6 +61,8 @@ public class CitiesWeatherAdapter extends RecyclerView.Adapter<RecyclerView.View
         String description = "";
         String iconURL = "";
         String temperature = Math.round(baseResponse.getMain().getTemp()) + " \u2103";
+        String pressureString = "";
+        String humidity = baseResponse.getMain().getHumidity() + " %";
 
         if (weatherList.size() > 0) {
             Weather weather = weatherList.get(0);
@@ -67,11 +74,26 @@ public class CitiesWeatherAdapter extends RecyclerView.Adapter<RecyclerView.View
             }
         }
 
+        switch (unitType) {
+            case 1:
+                pressureString += Math.round(baseResponse.getMain().getPressure());
+                break;
+            case 2:
+                pressureString += Math.round(baseResponse.getMain().getPressure() * 0.750062);
+                break;
+            default:
+                pressureString += Math.round(baseResponse.getMain().getPressure());
+        }
+
+        pressureString += " " + unitString;
+
         CustomViewHolder customViewHolder = (CustomViewHolder) holder;
         customViewHolder.cityName.setText(name);
         customViewHolder.dateTextView.setText(dateString);
         customViewHolder.descriptionTextView.setText(description);
         customViewHolder.temperatureTextView.setText(temperature);
+        customViewHolder.pressureTextView.setText(pressureString);
+        customViewHolder.humidityTextView.setText(humidity);
 
         if (!iconURL.isEmpty()) {
             Picasso.with(mContext).load(iconURL).into(customViewHolder.weatherIcon);
@@ -86,7 +108,7 @@ public class CitiesWeatherAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
     public class CustomViewHolder extends RecyclerView.ViewHolder {
-        protected TextView cityName, dateTextView, descriptionTextView, temperatureTextView;
+        protected TextView cityName, dateTextView, descriptionTextView, temperatureTextView, pressureTextView, humidityTextView;
         protected ImageView weatherIcon;
 
         public CustomViewHolder(View view) {
@@ -95,6 +117,8 @@ public class CitiesWeatherAdapter extends RecyclerView.Adapter<RecyclerView.View
             dateTextView = (TextView) view.findViewById(R.id.date_text_view);
             descriptionTextView = (TextView) view.findViewById(R.id.description_text_view);
             temperatureTextView = (TextView) view.findViewById(R.id.temperature_text_view);
+            pressureTextView = (TextView) view.findViewById(R.id.pressure_text_view);
+            humidityTextView = (TextView) view.findViewById(R.id.humidity_text_view);
             weatherIcon = (ImageView) view.findViewById(R.id.weather_icon_image_view);
         }
     }

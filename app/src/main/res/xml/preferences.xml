@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ListPreference
+        android:title="@string/pressure_value_settings_title"
+        android:summary="@string/pressure_value_settings_summary"
+        android:key="pressure_units"
+        android:defaultValue="1"
+        android:entries="@array/pressure_settings_entries"
+        android:entryValues="@array/pressure_settings_values" />
+
+</PreferenceScreen>

@@ -1,8 +1,10 @@
 package com.randomname.vlad.weathertest.Fragments;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -49,6 +51,8 @@ public class CitiesWeatherListFragment extends Fragment{
 
     private Realm realm;
 
+    private SharedPreferences.OnSharedPreferenceChangeListener mSharedPrefsChangeListener;
+
     public CitiesWeatherListFragment() {
     }
 
@@ -81,6 +85,15 @@ public class CitiesWeatherListFragment extends Fragment{
         citiesRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         citiesRecyclerView.setAdapter(adapter);
         citiesRecyclerView.addItemDecoration(new SpaceItemDecorator(4));
+
+        mSharedPrefsChangeListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
+            @Override
+            public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+                adapter.notifyDataSetChanged();
+            }
+        };
+
+        PreferenceManager.getDefaultSharedPreferences(getActivity()).registerOnSharedPreferenceChangeListener(mSharedPrefsChangeListener);
 
         getCitiesFromRealm();
         return view;

@@ -32,6 +32,10 @@
             android:name=".Activities.AddCityActivity"
             android:label="@string/title_activity_add_city" >
         </activity>
+        <activity
+            android:name=".Activities.SettingsActivity"
+            android:label="@string/title_activity_settings" >
+        </activity>
     </application>
 
 </manifest>

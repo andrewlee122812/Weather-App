@@ -12,4 +12,9 @@
     <string name="day_text_view_description">Day</string>
     <string name="evening_text_view_description">Evening</string>
     <string name="night_text_view_description">Night</string>
+    <string name="pressure_description_text_view">Pressure</string>
+    <string name="humidity_description_text_view">Humidity</string>
+    <string name="title_activity_settings">SettingsActivity</string>
+    <string name="pressure_value_settings_title">Pressure value</string>
+    <string name="pressure_value_settings_summary">Select pressure measure units</string>
 </resources>
