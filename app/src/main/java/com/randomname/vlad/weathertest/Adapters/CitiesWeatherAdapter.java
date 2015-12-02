@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.randomname.vlad.weathertest.Model.BaseResponse;
 import com.randomname.vlad.weathertest.Model.City;
 import com.randomname.vlad.weathertest.Model.Weather;
+import com.randomname.vlad.weathertest.Model.Wind;
 import com.randomname.vlad.weathertest.R;
 import com.squareup.picasso.Picasso;
 
@@ -63,6 +64,8 @@ public class CitiesWeatherAdapter extends RecyclerView.Adapter<RecyclerView.View
         String temperature = Math.round(baseResponse.getMain().getTemp()) + " \u2103";
         String pressureString = "";
         String humidity = baseResponse.getMain().getHumidity() + " %";
+        String windString = "";
+        Wind wind = baseResponse.getWind();
 
         if (weatherList.size() > 0) {
             Weather weather = weatherList.get(0);
@@ -85,6 +88,15 @@ public class CitiesWeatherAdapter extends RecyclerView.Adapter<RecyclerView.View
                 pressureString += Math.round(baseResponse.getMain().getPressure());
         }
 
+        if (wind != null) {
+            double d = wind.getSpeed();
+            if ((d - (int)d)!= 0) {
+                windString += String.format("%.1f", d) + " " + mContext.getString(R.string.wind_units);
+            } else {
+                windString += Math.round(d) + " " + mContext.getString(R.string.wind_units);
+            }
+        }
+
         pressureString += " " + unitString;
 
         CustomViewHolder customViewHolder = (CustomViewHolder) holder;
@@ -94,6 +106,7 @@ public class CitiesWeatherAdapter extends RecyclerView.Adapter<RecyclerView.View
         customViewHolder.temperatureTextView.setText(temperature);
         customViewHolder.pressureTextView.setText(pressureString);
         customViewHolder.humidityTextView.setText(humidity);
+        customViewHolder.windTextView.setText(windString);
 
         if (!iconURL.isEmpty()) {
             Picasso.with(mContext).load(iconURL).into(customViewHolder.weatherIcon);
@@ -109,6 +122,7 @@ public class CitiesWeatherAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     public class CustomViewHolder extends RecyclerView.ViewHolder {
         protected TextView cityName, dateTextView, descriptionTextView, temperatureTextView, pressureTextView, humidityTextView;
+        protected TextView windTextView;
         protected ImageView weatherIcon;
 
         public CustomViewHolder(View view) {
@@ -119,6 +133,7 @@ public class CitiesWeatherAdapter extends RecyclerView.Adapter<RecyclerView.View
             temperatureTextView = (TextView) view.findViewById(R.id.temperature_text_view);
             pressureTextView = (TextView) view.findViewById(R.id.pressure_text_view);
             humidityTextView = (TextView) view.findViewById(R.id.humidity_text_view);
+            windTextView = (TextView) view.findViewById(R.id.wind_text_view);
             weatherIcon = (ImageView) view.findViewById(R.id.weather_icon_image_view);
         }
     }

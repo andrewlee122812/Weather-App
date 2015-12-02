@@ -96,4 +96,22 @@
         android:layout_toRightOf="@+id/humidity_descr_text_view"
         android:layout_toEndOf="@+id/humidity_descr_text_view" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/wind_descr_text_view"
+        android:text="@string/wind_description_text_view"
+        android:layout_below="@id/humidity_text_view"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/wind_text_view"
+        android:text="100"
+        android:layout_marginLeft="8dp"
+        android:layout_alignTop="@+id/wind_descr_text_view"
+        android:layout_toRightOf="@+id/wind_descr_text_view"
+        android:layout_toEndOf="@+id/wind_descr_text_view" />
+
 </RelativeLayout>

@@ -14,6 +14,10 @@
     <string name="night_text_view_description">Night</string>
     <string name="pressure_description_text_view">Pressure</string>
     <string name="humidity_description_text_view">Humidity</string>
+    <string name="wind_description_text_view">Wind</string>
+
+    <string name="wind_units">Mps</string>
+
     <string name="title_activity_settings">SettingsActivity</string>
     <string name="pressure_value_settings_title">Pressure value</string>
     <string name="pressure_value_settings_summary">Select pressure measure units</string>

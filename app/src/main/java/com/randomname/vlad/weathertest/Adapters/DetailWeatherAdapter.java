@@ -49,6 +49,15 @@ public class DetailWeatherAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
     @Override
+    public long getItemId(int position) {
+        if (hasStableIds()) {
+            return 10 + position;
+        } else {
+            return super.getItemId(position);
+        }
+    }
+
+    @Override
     public int getItemViewType(int position) {
         if (position == 0 && sizeDiff > 0) {
             return TYPE_VIEW_HEADER;

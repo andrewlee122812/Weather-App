@@ -64,6 +64,7 @@ public class DetailWeatherFragment extends Fragment{
         ButterKnife.bind(this, view);
 
         adapter = new DetailWeatherAdapter(getActivity(), forecastListItems, new BaseResponse());
+        adapter.setHasStableIds(true);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(adapter);
