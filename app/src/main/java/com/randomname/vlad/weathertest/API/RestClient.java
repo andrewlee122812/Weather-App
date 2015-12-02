@@ -11,6 +11,8 @@ import com.randomname.vlad.weathertest.Model.Forecast;
 import com.randomname.vlad.weathertest.Model.GroupWeatherResponse;
 import com.randomname.vlad.weathertest.R;
 
+import java.util.Locale;
+
 import javax.security.auth.callback.Callback;
 
 import io.realm.RealmObject;
@@ -26,12 +28,14 @@ public class RestClient {
     private static RestClient mInstance;
     private static WeatherAPI mApi;
     private static Context mContext;
+    private static String localeCode;
 
     public static RestClient getInstance(Context context) {
         if (mInstance == null) {
             mInstance = new RestClient();
         }
         mContext = context;
+        localeCode = Locale.getDefault().getLanguage();
         return mInstance;
     }
 
@@ -59,14 +63,14 @@ public class RestClient {
     }
 
     public void getCurrentWeather(String city, retrofit.Callback<BaseResponse> callback) {
-        mApi.getCurrentWeather(city, mContext.getString(R.string.weather_api_key), callback);
+        mApi.getCurrentWeather(city, mContext.getString(R.string.weather_api_key), localeCode, callback);
     }
 
     public void getForecast(long cityId, int dayCount, retrofit.Callback<Forecast> callback) {
-        mApi.getForecast(cityId, mContext.getString(R.string.weather_api_key), dayCount, callback);
+        mApi.getForecast(cityId, mContext.getString(R.string.weather_api_key), dayCount, localeCode, callback);
     }
 
     public void getGroupWeather(String citiesGroup, retrofit.Callback<GroupWeatherResponse> callback) {
-        mApi.getGroupWeather(citiesGroup, mContext.getString(R.string.weather_api_key), callback);
+        mApi.getGroupWeather(citiesGroup, mContext.getString(R.string.weather_api_key), localeCode, callback);
     }
 }

@@ -15,6 +15,8 @@
     <string name="pressure_description_text_view">Pressure</string>
     <string name="humidity_description_text_view">Humidity</string>
     <string name="wind_description_text_view">Wind</string>
+    <string name="sunrise_description_text_view">Sunrise</string>
+    <string name="sunset_description_text_view">Sunset</string>
 
     <string name="wind_units">Mps</string>
 

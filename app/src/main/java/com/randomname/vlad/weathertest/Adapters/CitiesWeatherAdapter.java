@@ -58,6 +58,8 @@ public class CitiesWeatherAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         String name = baseResponse.getDisplayName();
         String dateString = DateFormat.format("dd MMMM kk:mm", new Date(baseResponse.getDt() * 1000)).toString();
+        String sunRiseString = DateFormat.format("kk:mm", new Date(baseResponse.getSys().getSunrise() * 1000)).toString();
+        String sunSetString = DateFormat.format("kk:mm", new Date(baseResponse.getSys().getSunset() * 1000)).toString();
         List<Weather> weatherList = baseResponse.getWeather();
         String description = "";
         String iconURL = "";
@@ -107,6 +109,8 @@ public class CitiesWeatherAdapter extends RecyclerView.Adapter<RecyclerView.View
         customViewHolder.pressureTextView.setText(pressureString);
         customViewHolder.humidityTextView.setText(humidity);
         customViewHolder.windTextView.setText(windString);
+        customViewHolder.sunRiseTextView.setText(sunRiseString);
+        customViewHolder.sunSetTextView.setText(sunSetString);
 
         if (!iconURL.isEmpty()) {
             Picasso.with(mContext).load(iconURL).into(customViewHolder.weatherIcon);
@@ -122,7 +126,7 @@ public class CitiesWeatherAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     public class CustomViewHolder extends RecyclerView.ViewHolder {
         protected TextView cityName, dateTextView, descriptionTextView, temperatureTextView, pressureTextView, humidityTextView;
-        protected TextView windTextView;
+        protected TextView windTextView, sunRiseTextView, sunSetTextView;
         protected ImageView weatherIcon;
 
         public CustomViewHolder(View view) {
@@ -134,6 +138,8 @@ public class CitiesWeatherAdapter extends RecyclerView.Adapter<RecyclerView.View
             pressureTextView = (TextView) view.findViewById(R.id.pressure_text_view);
             humidityTextView = (TextView) view.findViewById(R.id.humidity_text_view);
             windTextView = (TextView) view.findViewById(R.id.wind_text_view);
+            sunRiseTextView = (TextView) view.findViewById(R.id.sunrise_text_view);
+            sunSetTextView = (TextView) view.findViewById(R.id.sunset_text_view);
             weatherIcon = (ImageView) view.findViewById(R.id.weather_icon_image_view);
         }
     }

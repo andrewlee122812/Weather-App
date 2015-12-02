@@ -12,15 +12,16 @@ import retrofit.http.Query;
 
 public interface WeatherAPI {
 
-    final String CURRENT_WEATHER = "/weather?&lang=ru&units=metric";
-    final String GROUP_WEATHER = "/group?&lang=ru&units=metric";
-    final String FORECAST = "/forecast/daily?&lang=ru&units=metric";
+    final String CURRENT_WEATHER = "/weather?&units=metric";
+    final String GROUP_WEATHER = "/group?&units=metric";
+    final String FORECAST = "/forecast/daily?&units=metric";
 
     @Headers("Content-Type: application/json")
     @GET(CURRENT_WEATHER)
     void getCurrentWeather(
             @Query("q") String city,
             @Query("appId") String appId,
+            @Query("lang") String lang,
             Callback<BaseResponse> callback
     );
 
@@ -29,6 +30,7 @@ public interface WeatherAPI {
     void getGroupWeather(
             @Query("id") String citiesGroup,
             @Query("appId") String appId,
+            @Query("lang") String lang,
             Callback<GroupWeatherResponse> callback
     );
 
@@ -38,6 +40,7 @@ public interface WeatherAPI {
             @Query("id") long cityId,
             @Query("appId") String appId,
             @Query("cnt") int dayCount,
+            @Query("lang") String lang,
             Callback<Forecast> callback
     );
 }

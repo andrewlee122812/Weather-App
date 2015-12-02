@@ -14,6 +14,7 @@ public class BaseResponse extends RealmObject {
     private Wind wind;
     private Clouds clouds;
     private long dt;
+    private Sys sys;
     @PrimaryKey
     private long id;
     private String name = "";
@@ -81,5 +82,13 @@ public class BaseResponse extends RealmObject {
 
     public String getDisplayName() {
         return displayName;
+    }
+
+    public void setSys(Sys sys) {
+        this.sys = sys;
+    }
+
+    public Sys getSys() {
+        return sys;
     }
 }
