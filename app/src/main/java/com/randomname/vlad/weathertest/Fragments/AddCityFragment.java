@@ -33,6 +33,7 @@ import com.randomname.vlad.weathertest.Model.City;
 import com.randomname.vlad.weathertest.Model.Weather;
 import com.randomname.vlad.weathertest.Model.Wind;
 import com.randomname.vlad.weathertest.R;
+import com.randomname.vlad.weathertest.Util.Misc;
 import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
@@ -110,6 +111,7 @@ public class AddCityFragment extends Fragment{
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if ((actionId == EditorInfo.IME_ACTION_DONE) || ((event.getKeyCode() == KeyEvent.KEYCODE_ENTER) && (event.getAction() == KeyEvent.ACTION_DOWN))) {
                     searchCity();
+                    Misc.hideKeyboard(getActivity());
                     return true;
                 } else {
                     return false;
