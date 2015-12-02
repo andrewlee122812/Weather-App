@@ -8,4 +8,8 @@
     <string name="title_activity_launcher">LauncherActivity</string>
     <string name="title_activity_detail">DetailActivity</string>
     <string name="title_activity_add_city">AddCityActivity</string>
+    <string name="morning_text_view_description">Morning</string>
+    <string name="day_text_view_description">Day</string>
+    <string name="evening_text_view_description">Evening</string>
+    <string name="night_text_view_description">Night</string>
 </resources>

@@ -14,19 +14,142 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/temperature_text_view"
-        android:text="10C"
-        />
+        android:id="@+id/date_text_view"
+        android:text="10,01,2015"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="8dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/date_text_view"
-        android:text="11.06.2015"
-        android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/temperature_text_view"
-        android:layout_toEndOf="@+id/temperature_text_view"
-        android:layout_marginLeft="41dp"
-        android:layout_marginStart="41dp" />
+        android:id="@+id/description_text_view"
+        android:text="холодно"
+        android:layout_alignBottom="@+id/weather_icon_image_view"
+        android:layout_toRightOf="@+id/weather_icon_image_view"
+        android:layout_toEndOf="@+id/weather_icon_image_view"
+        android:layout_marginLeft="8dp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/weather_icon_image_view"
+        android:src="@mipmap/ic_launcher"
+        android:layout_marginTop="14dp"
+        android:layout_below="@+id/date_text_view"
+        android:layout_alignLeft="@+id/date_text_view"
+        android:layout_alignStart="@+id/date_text_view" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/temperature_text_view"
+        android:text="10С"
+        android:layout_alignTop="@+id/weather_icon_image_view"
+        android:layout_toRightOf="@+id/weather_icon_image_view"
+        android:layout_toEndOf="@+id/weather_icon_image_view"
+        android:layout_marginLeft="8dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/weather_icon_image_view"
+        >
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/morning_text_view_description"
+                android:layout_alignParentTop="true"
+                android:id="@+id/morning_descr"
+                android:layout_centerHorizontal="true"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/morning_temp_text_view"
+                android:layout_below="@id/morning_descr"
+                android:layout_centerHorizontal="true"
+                />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/day_text_view_description"
+                android:layout_alignParentTop="true"
+                android:id="@+id/day_descr"
+                android:layout_centerHorizontal="true"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/day_temp_text_view"
+                android:layout_below="@id/day_descr"
+                android:layout_centerHorizontal="true"
+                />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/evening_text_view_description"
+                android:layout_alignParentTop="true"
+                android:id="@+id/evening_descr"
+                android:layout_centerHorizontal="true"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/evening_temp_text_view"
+                android:layout_below="@id/evening_descr"
+                android:layout_centerHorizontal="true"
+                />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/night_text_view_description"
+                android:layout_alignParentTop="true"
+                android:id="@+id/night_descr"
+                android:layout_centerHorizontal="true"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/night_temp_text_view"
+                android:layout_below="@id/night_descr"
+                android:layout_centerHorizontal="true"
+                />
+        </RelativeLayout>
+
+    </LinearLayout>
 
 </RelativeLayout>

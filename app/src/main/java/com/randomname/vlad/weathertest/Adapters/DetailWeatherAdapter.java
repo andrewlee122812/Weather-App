@@ -129,11 +129,34 @@ public class DetailWeatherAdapter extends RecyclerView.Adapter<RecyclerView.View
         ForecastViewHolder viewHolder = (ForecastViewHolder) holder;
         ForecastListItem item = forecastListItems.get(position);
 
-        String temperature = Math.round(item.getTemp().getMax()) + " \u2103";
         String dateString = DateFormat.format("dd MMMM kk:mm", new Date(item.getDt() * 1000)).toString();
+        String description = "";
+        String iconURL = "";
+        String temperature = Math.round((item.getTemp().getMax() + item.getTemp().getMin()) / 2) + " \u2103";
 
-        viewHolder.temperatureTextView.setText(temperature);
+        if (item.getWeather().size() > 0) {
+            Weather weather = item.getWeather().get(0);
+
+            description = weather.getDescription();
+
+            if (!weather.getIcon().isEmpty()) {
+                iconURL = "http://openweathermap.org/img/w/" + weather.getIcon() + ".png";
+            }
+        }
+
         viewHolder.dateTextView.setText(dateString);
+        viewHolder.morningTempTextView.setText(Math.round(item.getTemp().getMorn()) + " \u2103");
+        viewHolder.dayTempTextView.setText(Math.round(item.getTemp().getDay()) + " \u2103");
+        viewHolder.eveningTempTextView.setText(Math.round(item.getTemp().getEve()) + " \u2103");
+        viewHolder.nightTempTextView.setText(Math.round(item.getTemp().getNight()) + " \u2103");
+        viewHolder.descriptionTextView.setText(description);
+        viewHolder.temperatureTextView.setText(temperature);
+
+        if (!iconURL.isEmpty()) {
+            Picasso.with(mContext).load(iconURL).into(viewHolder.weatherIconImageView);
+        } else {
+            viewHolder.weatherIconImageView.setImageResource(android.R.color.transparent);
+        }
     }
 
     @Override
@@ -142,12 +165,20 @@ public class DetailWeatherAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
     public class ForecastViewHolder extends RecyclerView.ViewHolder {
-        protected TextView temperatureTextView, dateTextView;
+        protected TextView dateTextView, eveningTempTextView, morningTempTextView, dayTempTextView, nightTempTextView;
+        protected TextView descriptionTextView, temperatureTextView;
+        protected ImageView weatherIconImageView;
 
         public ForecastViewHolder(View view) {
             super(view);
-            temperatureTextView = (TextView) view.findViewById(R.id.temperature_text_view);
             dateTextView = (TextView) view.findViewById(R.id.date_text_view);
+            eveningTempTextView = (TextView) view.findViewById(R.id.evening_temp_text_view);
+            morningTempTextView = (TextView) view.findViewById(R.id.morning_temp_text_view);
+            dayTempTextView = (TextView) view.findViewById(R.id.day_temp_text_view);
+            nightTempTextView = (TextView) view.findViewById(R.id.night_temp_text_view);
+            descriptionTextView = (TextView) view.findViewById(R.id.description_text_view);
+            temperatureTextView = (TextView) view.findViewById(R.id.temperature_text_view);
+            weatherIconImageView = (ImageView) view.findViewById(R.id.weather_icon_image_view);
         }
     }
 
