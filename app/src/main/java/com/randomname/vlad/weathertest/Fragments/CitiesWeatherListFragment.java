@@ -156,10 +156,4 @@ public class CitiesWeatherListFragment extends Fragment{
             }
         });
     }
-
-    @OnClick(R.id.add_fb)
-    public void onAddClick() {
-        Intent intent = new Intent(getActivity(), AddCityActivity.class);
-        startActivity(intent);
-    }
 }
