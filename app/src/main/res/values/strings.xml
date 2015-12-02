@@ -19,6 +19,7 @@
     <string name="wind_description_text_view">Wind</string>
     <string name="sunrise_description_text_view">Sunrise</string>
     <string name="sunset_description_text_view">Sunset</string>
+    <string name="save_button_text">Save city</string>
 
     <string name="wind_units">Mps</string>
 

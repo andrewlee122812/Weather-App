@@ -1,5 +1,6 @@
 package com.randomname.vlad.weathertest.Fragments;
 
+import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -22,10 +23,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nineoldandroids.animation.Animator;
+import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ObjectAnimator;
 import com.nineoldandroids.view.ViewHelper;
 import com.randomname.vlad.weathertest.API.RestClient;
+import com.randomname.vlad.weathertest.MainActivity;
 import com.randomname.vlad.weathertest.Model.BaseResponse;
+import com.randomname.vlad.weathertest.Model.City;
 import com.randomname.vlad.weathertest.Model.Weather;
 import com.randomname.vlad.weathertest.Model.Wind;
 import com.randomname.vlad.weathertest.R;
@@ -38,6 +42,10 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+import carbon.widget.Button;
+import io.realm.Realm;
+import io.realm.RealmQuery;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -71,10 +79,13 @@ public class AddCityFragment extends Fragment{
     TextView sunriseTextView;
     @Bind(R.id.sunset_text_view)
     TextView sunsetTextView;
+    @Bind(R.id.save_city_button)
+    Button saveCityButton;
 
     private  SharedPreferences sharedPref;
     private boolean doRequest = false;
     private boolean firstChange = true;
+    private BaseResponse currentBaseResponse;
 
     public AddCityFragment() {
     }
@@ -129,6 +140,7 @@ public class AddCityFragment extends Fragment{
 
         if (!doRequest) {
             ViewHelper.setAlpha(cityInfoWrapper, 0);
+            ViewHelper.setAlpha(saveCityButton, 0);
         }
 
         return view;
@@ -155,6 +167,7 @@ public class AddCityFragment extends Fragment{
                 if (baseResponse.getCod().equals("200")) {
                     showCityInfo();
                     updateCityInfo(baseResponse);
+                    currentBaseResponse = baseResponse;
                 }
             }
 
@@ -166,17 +179,25 @@ public class AddCityFragment extends Fragment{
     }
 
     private void hideCityInfo() {
+        AnimatorSet set = new AnimatorSet();
         Animator animator = ObjectAnimator.ofFloat(cityInfoWrapper, "alpha", 0);
-        animator.setDuration(200);
-        animator.start();
+        Animator animator2 = ObjectAnimator.ofFloat(saveCityButton, "alpha", 0);
+        set.playTogether(animator, animator2);
+        set.setDuration(200);
+        set.start();
         doRequest = false;
+        saveCityButton.setClickable(false);
     }
 
     private void showCityInfo() {
+        AnimatorSet set = new AnimatorSet();
         Animator animator = ObjectAnimator.ofFloat(cityInfoWrapper, "alpha", 1);
-        animator.setDuration(200);
-        animator.start();
+        Animator animator2 = ObjectAnimator.ofFloat(saveCityButton, "alpha", 1);
+        set.playTogether(animator, animator2);
+        set.setDuration(200);
+        set.start();
         doRequest = true;
+        saveCityButton.setClickable(true);
     }
 
     private void updateCityInfo(BaseResponse baseResponse) {
@@ -244,5 +265,26 @@ public class AddCityFragment extends Fragment{
         } else {
             weatherIconImageView.setImageResource(android.R.color.transparent);
         }
+    }
+
+    @OnClick(R.id.save_city_button)
+    public void onSaveCityClick() {
+        if (currentBaseResponse == null) {
+            return;
+        }
+
+        Realm realm = Realm.getInstance(getActivity());
+
+        realm.beginTransaction();
+
+        City city = realm.createObject(City.class);
+        city.setDisplayName(cityNameEditText.getText().toString());
+        city.setId(currentBaseResponse.getId());
+        city.setName(currentBaseResponse.getName());
+
+        realm.commitTransaction();
+        realm.close();
+        getActivity().setResult(Activity.RESULT_OK);
+        getActivity().finish();
     }
 }

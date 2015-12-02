@@ -1,5 +1,6 @@
 package com.randomname.vlad.weathertest;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -34,6 +35,7 @@ import io.codetail.animation.ViewAnimationUtils;
 public class MainActivity extends AppCompatActivity {
 
     final static String TAG = "Main Activity Tag";
+    public final static int ADD_CITY_SUCC_CODE = 200;
 
     @Bind(R.id.toolbar)
     Toolbar toolbar;
@@ -92,6 +94,14 @@ public class MainActivity extends AppCompatActivity {
             searchView.closeSearch();
         } else {
             super.onBackPressed();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == ADD_CITY_SUCC_CODE && resultCode == Activity.RESULT_OK) {
+            weatherListFragment.updateList();
         }
     }
 
@@ -165,7 +175,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onAnimationEnd(Animator animation) {
                 Intent intent = new Intent(MainActivity.this, AddCityActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, ADD_CITY_SUCC_CODE);
                 overridePendingTransition(R.anim.fade_in, R.anim.stay_still);
 
                 new Handler().postDelayed(new Runnable() {

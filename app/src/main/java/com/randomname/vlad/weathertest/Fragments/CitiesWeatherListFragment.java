@@ -104,6 +104,10 @@ public class CitiesWeatherListFragment extends Fragment{
         realm.close();
     }
 
+    public void updateList() {
+        getCitiesFromRealm();
+    }
+
     public void setSearchQuery(String string) {
         adapter.setFilter(string);
     }

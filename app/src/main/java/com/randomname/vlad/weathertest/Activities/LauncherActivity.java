@@ -42,7 +42,7 @@ public class LauncherActivity extends AppCompatActivity {
             city.setName("Saint Petersburg");
             realm.commitTransaction();
         }
-
+        realm.close();
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
         finish();
