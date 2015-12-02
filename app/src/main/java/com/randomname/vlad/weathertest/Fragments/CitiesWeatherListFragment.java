@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.randomname.vlad.weathertest.API.RestClient;
 import com.randomname.vlad.weathertest.Activities.AddCityActivity;
@@ -72,7 +73,7 @@ public class CitiesWeatherListFragment extends Fragment{
             @Override
             public void onClick(View v) {
                 int position = citiesRecyclerView.getChildAdapterPosition(v);
-                BaseResponse baseResponse = baseResponseArrayList.get(position);
+                BaseResponse baseResponse = adapter.getVisibleObject(position);
 
                 Intent intent = new Intent(getActivity(), DetailActivity.class);
                 intent.putExtra(DetailActivity.BASE_RESPONSE_EXTRA, baseResponse.getId());
@@ -87,7 +88,7 @@ public class CitiesWeatherListFragment extends Fragment{
         mSharedPrefsChangeListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
             @Override
             public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-                adapter.notifyDataSetChanged();
+                adapter.notifyDataChanged();
             }
         };
 
@@ -95,6 +96,14 @@ public class CitiesWeatherListFragment extends Fragment{
 
         getCitiesFromRealm();
         return view;
+    }
+
+    public void setSearchQuery(String string) {
+        adapter.setFilter(string);
+    }
+
+    public void flushFilter() {
+        adapter.flushFilter();
     }
 
     private void getCitiesFromRealm() {
@@ -119,7 +128,7 @@ public class CitiesWeatherListFragment extends Fragment{
 
         baseResponseArrayList.clear();
         baseResponseArrayList.addAll(result);
-        adapter.notifyDataSetChanged();
+        adapter.notifyDataChanged();
     }
 
     private void loadWeatherViaNetwork() {
@@ -138,7 +147,7 @@ public class CitiesWeatherListFragment extends Fragment{
 
                 baseResponseArrayList.clear();
                 baseResponseArrayList.addAll(groupWeatherResponse.getList());
-                adapter.notifyDataSetChanged();
+                adapter.notifyDataChanged();
             }
 
             @Override

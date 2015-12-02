@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.randomname.vlad.weathertest.Model.BaseResponse;
 import com.randomname.vlad.weathertest.Model.Weather;
@@ -17,6 +18,7 @@ import com.randomname.vlad.weathertest.Model.Wind;
 import com.randomname.vlad.weathertest.R;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -24,15 +26,53 @@ public class CitiesWeatherAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     private Context mContext;
     private List<BaseResponse> baseResponseList;
+    private List<BaseResponse> visibleObjects;
     private View.OnClickListener onClickListener;
+    private String queryString = "";
 
     public CitiesWeatherAdapter(Context context, List<BaseResponse> baseResponseList) {
         this.mContext = context;
         this.baseResponseList = baseResponseList;
+
+        flushFilter();
     }
 
     public void setOnItemClickListener(View.OnClickListener onItemClickListener) {
         onClickListener = onItemClickListener;
+    }
+
+    public void flushFilter(){
+        visibleObjects = new ArrayList<>();
+
+        visibleObjects.addAll(baseResponseList);
+        notifyDataSetChanged();
+    }
+
+    public void setFilter(String queryText) {
+        visibleObjects = new ArrayList<>();
+        queryText = queryText.toLowerCase();
+        queryString = queryText;
+
+        for (BaseResponse item: baseResponseList) {
+            if ( item.getName().toLowerCase().contains(queryText) ||
+                    item.getDisplayName().toLowerCase().contains(queryText)) {
+                visibleObjects.add(item);
+            }
+        }
+
+        notifyDataSetChanged();
+    }
+
+    public BaseResponse getVisibleObject(int position) {
+        return visibleObjects.get(position);
+    }
+
+    public void notifyDataChanged() {
+        if (queryString.isEmpty()) {
+            flushFilter();
+        } else {
+            setFilter(queryString);
+        }
     }
 
     @Override
@@ -49,7 +89,7 @@ public class CitiesWeatherAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        BaseResponse baseResponse = baseResponseList.get(position);
+        BaseResponse baseResponse = visibleObjects.get(position);
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(mContext);
         int unitType = Integer.parseInt(sharedPref.getString("pressure_units", "1"));
         String unitString = mContext.getResources().getStringArray(R.array.pressure_settings_entries)[unitType - 1];
@@ -119,7 +159,7 @@ public class CitiesWeatherAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     @Override
     public int getItemCount() {
-        return (null != baseResponseList ? baseResponseList.size() : 0);
+        return (null != visibleObjects ? visibleObjects.size() : 0);
     }
 
     public class CustomViewHolder extends RecyclerView.ViewHolder {
