@@ -133,7 +133,7 @@ public class DetailWeatherAdapter extends RecyclerView.Adapter<RecyclerView.View
         ForecastViewHolder viewHolder = (ForecastViewHolder) holder;
         ForecastListItem item = forecastListItems.get(position);
 
-        String dateString = DateFormat.format("dd MMMM kk:mm", new Date(item.getDt() * 1000)).toString();
+        String dateString = DateFormat.format("dd MMMM", new Date(item.getDt() * 1000)).toString();
         String description = "";
         String iconURL = "";
         String temperature = Math.round((item.getTemp().getMax() + item.getTemp().getMin()) / 2) + " \u2103";
