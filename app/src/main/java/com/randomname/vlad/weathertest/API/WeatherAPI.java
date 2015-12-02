@@ -7,7 +7,6 @@ import com.randomname.vlad.weathertest.Model.GroupWeatherResponse;
 import retrofit.Callback;
 import retrofit.http.GET;
 import retrofit.http.Headers;
-import retrofit.http.Path;
 import retrofit.http.Query;
 
 public interface WeatherAPI {

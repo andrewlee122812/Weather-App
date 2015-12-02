@@ -13,8 +13,6 @@ import com.randomname.vlad.weathertest.R;
 
 import java.util.Locale;
 
-import javax.security.auth.callback.Callback;
-
 import io.realm.RealmObject;
 import retrofit.RestAdapter;
 import retrofit.android.AndroidLog;

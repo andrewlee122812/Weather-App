@@ -11,9 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
-import com.melnykov.fab.FloatingActionButton;
 import com.randomname.vlad.weathertest.API.RestClient;
 import com.randomname.vlad.weathertest.Activities.AddCityActivity;
 import com.randomname.vlad.weathertest.Activities.DetailActivity;

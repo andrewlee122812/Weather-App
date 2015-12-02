@@ -1,10 +1,8 @@
 package com.randomname.vlad.weathertest.Activities;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.support.v7.app.AppCompatActivity;
 
 import com.randomname.vlad.weathertest.MainActivity;
 import com.randomname.vlad.weathertest.Model.City;
@@ -34,12 +32,12 @@ public class LauncherActivity extends AppCompatActivity {
         if (result.size() == 0) {
             realm.beginTransaction();
             city = realm.createObject(City.class);
-            city.setDisplayName("Moscow");
+            city.setDisplayName(getString(R.string.moscow_display_name));
             city.setId(524901);
             city.setName("Moscow");
 
             city = realm.createObject(City.class);
-            city.setDisplayName("Saint Petersburg");
+            city.setDisplayName(getString(R.string.sp_display_name));
             city.setId(498817);
             city.setName("Saint Petersburg");
             realm.commitTransaction();

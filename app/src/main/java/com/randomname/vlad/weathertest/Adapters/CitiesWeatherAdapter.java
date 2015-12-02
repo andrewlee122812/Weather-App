@@ -12,13 +12,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.randomname.vlad.weathertest.Model.BaseResponse;
-import com.randomname.vlad.weathertest.Model.City;
 import com.randomname.vlad.weathertest.Model.Weather;
 import com.randomname.vlad.weathertest.Model.Wind;
 import com.randomname.vlad.weathertest.R;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 

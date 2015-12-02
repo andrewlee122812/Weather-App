@@ -1,23 +1,15 @@
 package com.randomname.vlad.weathertest.Activities;
 
+import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 
-import com.randomname.vlad.weathertest.Model.BaseResponse;
-import com.randomname.vlad.weathertest.Model.City;
 import com.randomname.vlad.weathertest.R;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import io.realm.Realm;
-import io.realm.RealmQuery;
-import io.realm.RealmResults;
 
 public class DetailActivity extends AppCompatActivity {
 
