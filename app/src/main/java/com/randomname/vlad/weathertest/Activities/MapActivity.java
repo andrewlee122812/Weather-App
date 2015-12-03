@@ -19,6 +19,7 @@ import com.google.android.gms.maps.model.TileOverlayOptions;
 import com.google.android.gms.maps.model.TileProvider;
 import com.google.android.gms.maps.model.UrlTileProvider;
 import com.randomname.vlad.weathertest.R;
+import com.randomname.vlad.weathertest.Views.CachingUrlTileProvider;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -98,19 +99,10 @@ public class MapActivity extends DrawerBaseActivity {
     }
 
     private TileProvider createTileProvider() {
-        TileProvider tileProvider = new UrlTileProvider(256, 256) {
+        TileProvider tileProvider = new CachingUrlTileProvider(this, 256, 256) {
             @Override
-            public URL getTileUrl(int x, int y, int zoom) {
-                String fUrl = String.format(OWM_TILE_URL, tileOverlayValues[tileTypeSpinner.getSelectedItemPosition()], zoom, x, y);
-                URL url = null;
-                try {
-                    url = new URL(fUrl);
-                }
-                catch(MalformedURLException mfe) {
-                    mfe.printStackTrace();
-                }
-
-                return url;
+            public String getTileUrl(int x, int y, int z) {
+                return String.format(OWM_TILE_URL, tileOverlayValues[tileTypeSpinner.getSelectedItemPosition()], z, x, y);
             }
         };
 
