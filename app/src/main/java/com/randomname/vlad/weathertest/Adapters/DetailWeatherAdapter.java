@@ -1,6 +1,8 @@
 package com.randomname.vlad.weathertest.Adapters;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
@@ -12,6 +14,7 @@ import android.widget.TextView;
 import com.randomname.vlad.weathertest.Model.BaseResponse;
 import com.randomname.vlad.weathertest.Model.ForecastListItem;
 import com.randomname.vlad.weathertest.Model.Weather;
+import com.randomname.vlad.weathertest.Model.Wind;
 import com.randomname.vlad.weathertest.R;
 import com.squareup.picasso.Picasso;
 
@@ -100,12 +103,21 @@ public class DetailWeatherAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         HeaderViewHolder customViewHolder = (HeaderViewHolder) holder;
 
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(mContext);
+        int unitType = Integer.parseInt(sharedPref.getString("pressure_units", "1"));
+        String unitString = mContext.getResources().getStringArray(R.array.pressure_settings_entries)[unitType - 1];
+
         String name = baseResponseHeaderInfo.getDisplayName();
-        String dateString = DateFormat.format("dd MMMM kk:mm", new Date(baseResponseHeaderInfo.getDt() * 1000)).toString();
+        String sunRiseString = DateFormat.format("kk:mm", new Date(baseResponseHeaderInfo.getSys().getSunrise() * 1000)).toString();
+        String sunSetString = DateFormat.format("kk:mm", new Date(baseResponseHeaderInfo.getSys().getSunset() * 1000)).toString();
         List<Weather> weatherList = baseResponseHeaderInfo.getWeather();
         String description = "";
         String iconURL = "";
         String temperature = Math.round(baseResponseHeaderInfo.getMain().getTemp()) + " \u2103";
+        String pressureString = "";
+        String humidity = baseResponseHeaderInfo.getMain().getHumidity() + " %";
+        String windString = "";
+        Wind wind = baseResponseHeaderInfo.getWind();
 
         if (weatherList.size() > 0) {
             Weather weather = weatherList.get(0);
@@ -117,15 +129,41 @@ public class DetailWeatherAdapter extends RecyclerView.Adapter<RecyclerView.View
             }
         }
 
-        customViewHolder.cityNameTextView.setText(name);
-        customViewHolder.dateTextView.setText(dateString);
+        switch (unitType) {
+            case 1:
+                pressureString += Math.round(baseResponseHeaderInfo.getMain().getPressure());
+                break;
+            case 2:
+                pressureString += Math.round(baseResponseHeaderInfo.getMain().getPressure() * 0.750062);
+                break;
+            default:
+                pressureString += Math.round(baseResponseHeaderInfo.getMain().getPressure());
+        }
+
+        if (wind != null) {
+            double d = wind.getSpeed();
+            if ((d - (int)d)!= 0) {
+                windString += String.format("%.1f", d) + " " + mContext.getString(R.string.wind_units);
+            } else {
+                windString += Math.round(d) + " " + mContext.getString(R.string.wind_units);
+            }
+        }
+
+        pressureString += " " + unitString;
+
+        customViewHolder.cityName.setText(name);
         customViewHolder.descriptionTextView.setText(description);
         customViewHolder.temperatureTextView.setText(temperature);
+        customViewHolder.pressureTextView.setText(pressureString);
+        customViewHolder.humidityTextView.setText(humidity);
+        customViewHolder.windTextView.setText(windString);
+        customViewHolder.sunRiseTextView.setText(sunRiseString);
+        customViewHolder.sunSetTextView.setText(sunSetString);
 
         if (!iconURL.isEmpty()) {
-            Picasso.with(mContext).load(iconURL).into(customViewHolder.weatherIconImageView);
+            Picasso.with(mContext).load(iconURL).into(customViewHolder.weatherIcon);
         } else {
-            customViewHolder.weatherIconImageView.setImageResource(android.R.color.transparent);
+            customViewHolder.weatherIcon.setImageResource(android.R.color.transparent);
         }
     }
 
@@ -133,10 +171,17 @@ public class DetailWeatherAdapter extends RecyclerView.Adapter<RecyclerView.View
         ForecastViewHolder viewHolder = (ForecastViewHolder) holder;
         ForecastListItem item = forecastListItems.get(position);
 
-        String dateString = DateFormat.format("dd MMMM", new Date(item.getDt() * 1000)).toString();
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(mContext);
+        int unitType = Integer.parseInt(sharedPref.getString("pressure_units", "1"));
+        String unitString = mContext.getResources().getStringArray(R.array.pressure_settings_entries)[unitType - 1];
+
+        String dateString = DateFormat.format("dd MMMM kk:mm", new Date(item.getDt() * 1000)).toString();
         String description = "";
         String iconURL = "";
         String temperature = Math.round((item.getTemp().getMax() + item.getTemp().getMin()) / 2) + " \u2103";
+        String pressureString = "";
+        String humidity = item.getHumidity() + " %";
+        String windString = "";
 
         if (item.getWeather().size() > 0) {
             Weather weather = item.getWeather().get(0);
@@ -148,6 +193,26 @@ public class DetailWeatherAdapter extends RecyclerView.Adapter<RecyclerView.View
             }
         }
 
+        switch (unitType) {
+            case 1:
+                pressureString += Math.round(item.getPressure());
+                break;
+            case 2:
+                pressureString += Math.round(item.getPressure() * 0.750062);
+                break;
+            default:
+                pressureString += Math.round(item.getPressure());
+        }
+
+        double d = item.getSpeed();
+        if ((d - (int)d)!= 0) {
+            windString += String.format("%.1f", d) + " " + mContext.getString(R.string.wind_units);
+        } else {
+            windString += Math.round(d) + " " + mContext.getString(R.string.wind_units);
+        }
+
+        pressureString += " " + unitString;
+
         viewHolder.dateTextView.setText(dateString);
         viewHolder.morningTempTextView.setText(Math.round(item.getTemp().getMorn()) + " \u2103");
         viewHolder.dayTempTextView.setText(Math.round(item.getTemp().getDay()) + " \u2103");
@@ -155,6 +220,9 @@ public class DetailWeatherAdapter extends RecyclerView.Adapter<RecyclerView.View
         viewHolder.nightTempTextView.setText(Math.round(item.getTemp().getNight()) + " \u2103");
         viewHolder.descriptionTextView.setText(description);
         viewHolder.temperatureTextView.setText(temperature);
+        viewHolder.pressureTextView.setText(pressureString);
+        viewHolder.humidityTextView.setText(humidity);
+        viewHolder.windTextView.setText(windString);
 
         if (!iconURL.isEmpty()) {
             Picasso.with(mContext).load(iconURL).into(viewHolder.weatherIconImageView);
@@ -170,7 +238,7 @@ public class DetailWeatherAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     public class ForecastViewHolder extends RecyclerView.ViewHolder {
         protected TextView dateTextView, eveningTempTextView, morningTempTextView, dayTempTextView, nightTempTextView;
-        protected TextView descriptionTextView, temperatureTextView;
+        protected TextView descriptionTextView, temperatureTextView, pressureTextView, humidityTextView, windTextView;
         protected ImageView weatherIconImageView;
 
         public ForecastViewHolder(View view) {
@@ -183,20 +251,28 @@ public class DetailWeatherAdapter extends RecyclerView.Adapter<RecyclerView.View
             descriptionTextView = (TextView) view.findViewById(R.id.description_text_view);
             temperatureTextView = (TextView) view.findViewById(R.id.temperature_text_view);
             weatherIconImageView = (ImageView) view.findViewById(R.id.weather_icon_image_view);
+            pressureTextView = (TextView) view.findViewById(R.id.pressure_text_view);
+            humidityTextView = (TextView) view.findViewById(R.id.humidity_text_view);
+            windTextView = (TextView) view.findViewById(R.id.wind_text_view);
         }
     }
 
     public class HeaderViewHolder extends RecyclerView.ViewHolder {
-        protected TextView cityNameTextView, dateTextView, descriptionTextView, temperatureTextView;
-        protected ImageView weatherIconImageView;
+        protected TextView cityName, descriptionTextView, temperatureTextView, pressureTextView, humidityTextView;
+        protected TextView windTextView, sunRiseTextView, sunSetTextView;
+        protected ImageView weatherIcon;
 
         public HeaderViewHolder(View view) {
             super(view);
-            cityNameTextView = (TextView) view.findViewById(R.id.city_name_text_view);
-            dateTextView = (TextView) view.findViewById(R.id.date_text_view);
+            cityName = (TextView) view.findViewById(R.id.city_name_text_view);
             descriptionTextView = (TextView) view.findViewById(R.id.description_text_view);
             temperatureTextView = (TextView) view.findViewById(R.id.temperature_text_view);
-            weatherIconImageView = (ImageView) view.findViewById(R.id.weather_icon_image_view);
+            pressureTextView = (TextView) view.findViewById(R.id.pressure_text_view);
+            humidityTextView = (TextView) view.findViewById(R.id.humidity_text_view);
+            windTextView = (TextView) view.findViewById(R.id.wind_text_view);
+            sunRiseTextView = (TextView) view.findViewById(R.id.sunrise_text_view);
+            sunSetTextView = (TextView) view.findViewById(R.id.sunset_text_view);
+            weatherIcon = (ImageView) view.findViewById(R.id.weather_icon_image_view);
         }
     }
 }
