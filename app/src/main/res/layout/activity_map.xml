@@ -10,7 +10,14 @@
         android:layout_width="match_parent"
         style="@style/Widget.MyApp.ActionBar"
         android:layout_alignParentTop="true"
-        />
+        >
+
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tile_type_spinner"/>
+
+    </android.support.v7.widget.Toolbar>
 
     <fragment
         android:layout_width="match_parent"

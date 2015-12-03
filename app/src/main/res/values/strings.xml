@@ -36,4 +36,6 @@
     <string name="title_activity_map">Map</string>
 
     <string name="press_back_again_toast">Press back again to exit</string>
+    <string name="main_drawer_item">Main</string>
+    <string name="map_drawer_item">Map</string>
 </resources>

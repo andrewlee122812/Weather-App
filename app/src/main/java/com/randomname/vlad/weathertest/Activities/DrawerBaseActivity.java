@@ -32,8 +32,8 @@ public class DrawerBaseActivity extends AppCompatActivity {
                 .withActivity(this)
                 .withToolbar(toolbar)
                 .addDrawerItems(
-                        new PrimaryDrawerItem().withName("Main"),
-                        new PrimaryDrawerItem().withName("Map")
+                        new PrimaryDrawerItem().withName(R.string.main_drawer_item),
+                        new PrimaryDrawerItem().withName(R.string.map_drawer_item)
                 )
                 .build();
 

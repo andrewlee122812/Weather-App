@@ -3,6 +3,11 @@ package com.randomname.vlad.weathertest.Activities;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -17,6 +22,7 @@ import com.randomname.vlad.weathertest.R;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -25,15 +31,20 @@ public class MapActivity extends DrawerBaseActivity {
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     private String OWM_TILE_URL =  "http://tile.openweathermap.org/map/%s/%d/%d/%d.png";
+    private String[] tileOverlayValues;
+    private TileOverlay tileOverlay;
 
     @Bind(R.id.toolbar)
     Toolbar toolbar;
+    @Bind(R.id.tile_type_spinner)
+    Spinner tileTypeSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
         ButterKnife.bind(this);
+        tileOverlayValues = getResources().getStringArray(R.array.map_tile_values);
         initToolbar();
         setUpMapIfNeeded();
     }
@@ -45,7 +56,24 @@ public class MapActivity extends DrawerBaseActivity {
     }
 
     private void initToolbar() {
-        super.initDrawer(toolbar, getLocalClassName());
+        super.initDrawer(toolbar, getClass().getSimpleName());
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        ArrayAdapter mAdapter = ArrayAdapter.createFromResource(getApplicationContext(), R.array.map_tile_names, android.R.layout.simple_spinner_dropdown_item);
+        mAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+        tileTypeSpinner.setAdapter(mAdapter);
+        tileTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                tileOverlay.remove();
+                changeMapOverlay();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
     private void setUpMapIfNeeded() {
@@ -62,14 +90,18 @@ public class MapActivity extends DrawerBaseActivity {
     }
 
     private void setUpMap() {
-        mMap.addTileOverlay(new TileOverlayOptions().tileProvider(createTileProvider()));
+        changeMapOverlay();
+    }
+
+    private void changeMapOverlay() {
+        tileOverlay = mMap.addTileOverlay(new TileOverlayOptions().tileProvider(createTileProvider()));
     }
 
     private TileProvider createTileProvider() {
         TileProvider tileProvider = new UrlTileProvider(256, 256) {
             @Override
             public URL getTileUrl(int x, int y, int zoom) {
-                String fUrl = String.format(OWM_TILE_URL, "clouds", zoom, x, y);
+                String fUrl = String.format(OWM_TILE_URL, tileOverlayValues[tileTypeSpinner.getSelectedItemPosition()], zoom, x, y);
                 URL url = null;
                 try {
                     url = new URL(fUrl);
