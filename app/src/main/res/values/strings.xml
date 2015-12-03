@@ -29,4 +29,8 @@
     <string name="moscow_display_name">Moscow</string>
     <string name="sp_display_name">Saint Petersburg</string>
     <string name="add_city_edit_text_hint">Type new city</string>
+    <string name="weather_icon_content_description">Weather icon</string>
+    <string name="up_button_content_description">up button</string>
+    <string name="voice_search_content_description">voice search button</string>
+    <string name="empty_search_content_description">empty search</string>
 </resources>

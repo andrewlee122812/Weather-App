@@ -212,7 +212,7 @@ public class AddCityFragment extends Fragment{
         String cityNameString = baseResponse.getName();
         String countryString = baseResponse.getSys().getCountry();
         String descriptionString = "";
-        String iconURL = "";
+        int iconResId = 0;
         String temperatureString = Math.round(baseResponse.getMain().getTemp()) + " \u2103";
         String pressureString = "";
         String humidityString = baseResponse.getMain().getHumidity() + " %";
@@ -226,7 +226,7 @@ public class AddCityFragment extends Fragment{
             descriptionString = weather.getDescription();
 
             if (!weather.getIcon().isEmpty()) {
-                iconURL = "http://openweathermap.org/img/w/" + weather.getIcon() + ".png";
+                iconResId = Misc.getImageResource(weather.getIcon(), getActivity());
             }
         }
 
@@ -262,10 +262,10 @@ public class AddCityFragment extends Fragment{
         sunriseTextView.setText(sunriseString);
         sunsetTextView.setText(sunsetString);
 
-        if (!iconURL.isEmpty()) {
-            Picasso.with(getActivity()).load(iconURL).into(weatherIconImageView);
+        if (iconResId > 0) {
+            Picasso.with(getActivity()).load(iconResId).into(weatherIconImageView);
         } else {
-            weatherIconImageView.setImageResource(android.R.color.transparent);
+            Picasso.with(getActivity()).load(R.drawable.unknown).into(weatherIconImageView);
         }
     }
 

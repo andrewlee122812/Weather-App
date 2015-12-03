@@ -48,7 +48,7 @@
             android:background="@color/ColorPrimary"
             app:carbon_elevation="@dimen/carbon_elevationLow"
             app:carbon_rippleColor="@color/ColorPrimaryDark"
-            android:layout_gravity="right|bottom"
+            android:layout_gravity="end|bottom"
             />
 
     </FrameLayout>

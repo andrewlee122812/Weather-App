@@ -22,4 +22,8 @@
     <string name="title_activity_add_city">Добавить новый город</string>
     <string name="title_activity_detail">Прогноз</string>
     <string name="title_activity_settings">Настройки</string>
+    <string name="empty_search_content_description">Очистить поиск</string>
+    <string name="up_button_content_description">Кнопка назад</string>
+    <string name="voice_search_content_description">Глосовой поиск</string>
+    <string name="weather_icon_content_description">Иконка погоды</string>
 </resources>

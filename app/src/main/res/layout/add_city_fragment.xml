@@ -26,6 +26,7 @@
         android:layout_height="match_parent"
         android:id="@+id/city_info_wrapper"
         android:layout_below="@id/city_name_edit_text"
+        android:layout_marginTop="14dp"
         >
 
         <View
@@ -36,7 +37,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/city_name_text_view"
-            android:text="Москва"
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
@@ -45,56 +45,59 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/country_text_view"
-            android:text="10,01,2015"
-            android:layout_alignTop="@+id/city_name_text_view"
-            android:layout_toRightOf="@+id/city_name_text_view"
-            android:layout_toEndOf="@+id/city_name_text_view"
-            android:layout_marginLeft="8dp" />
+            android:layout_toRightOf="@id/city_name_text_view"
+            android:layout_toEndOf="@id/city_name_text_view"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/description_text_view"
-            android:text="холодно"
-            android:layout_alignBottom="@+id/weather_icon_image_view"
-            android:layout_toRightOf="@+id/weather_icon_image_view"
-            android:layout_toEndOf="@+id/weather_icon_image_view"
-            android:layout_marginLeft="8dp" />
+            android:layout_below="@+id/temperature_text_view"
+            android:layout_alignLeft="@+id/temperature_text_view"
+            android:layout_alignStart="@+id/temperature_text_view"
+            android:layout_marginTop="6dp"  />
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:id="@+id/weather_icon_image_view"
             android:src="@mipmap/ic_launcher"
-            android:layout_marginTop="14dp"
             android:layout_below="@+id/city_name_text_view"
-            android:layout_alignLeft="@+id/city_name_text_view"
-            android:layout_alignStart="@+id/city_name_text_view" />
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:contentDescription="@string/weather_icon_content_description"
+            android:layout_marginTop="22dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/temperature_text_view"
-            android:text="10С"
             android:layout_alignTop="@+id/weather_icon_image_view"
             android:layout_toRightOf="@+id/weather_icon_image_view"
             android:layout_toEndOf="@+id/weather_icon_image_view"
-            android:layout_marginLeft="8dp" />
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/pressure_descr_text_view"
             android:text="@string/pressure_description_text_view"
-            android:layout_below="@id/weather_icon_image_view"
-            />
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/weather_icon_image_view"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"  />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/pressure_text_view"
-            android:text="100"
             android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
             android:layout_alignTop="@+id/pressure_descr_text_view"
             android:layout_toRightOf="@+id/pressure_descr_text_view"
             android:layout_toEndOf="@+id/pressure_descr_text_view" />
@@ -104,15 +107,17 @@
             android:layout_height="wrap_content"
             android:id="@+id/humidity_descr_text_view"
             android:text="@string/humidity_description_text_view"
-            android:layout_below="@id/pressure_text_view"
-            />
+            android:layout_below="@+id/pressure_descr_text_view"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="14dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/humidity_text_view"
-            android:text="100"
             android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
             android:layout_alignTop="@+id/humidity_descr_text_view"
             android:layout_toRightOf="@+id/humidity_descr_text_view"
             android:layout_toEndOf="@+id/humidity_descr_text_view" />
@@ -122,15 +127,17 @@
             android:layout_height="wrap_content"
             android:id="@+id/wind_descr_text_view"
             android:text="@string/wind_description_text_view"
-            android:layout_below="@id/humidity_text_view"
-            />
+            android:layout_below="@+id/humidity_descr_text_view"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="14dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/wind_text_view"
-            android:text="100"
             android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
             android:layout_alignTop="@+id/wind_descr_text_view"
             android:layout_toRightOf="@+id/wind_descr_text_view"
             android:layout_toEndOf="@+id/wind_descr_text_view" />
@@ -140,15 +147,17 @@
             android:layout_height="wrap_content"
             android:id="@+id/sunrise_descr_text_view"
             android:text="@string/sunrise_description_text_view"
-            android:layout_below="@id/wind_text_view"
-            />
+            android:layout_marginTop="14dp"
+            android:layout_below="@+id/wind_descr_text_view"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/sunrise_text_view"
-            android:text="100"
             android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
             android:layout_alignTop="@+id/sunrise_descr_text_view"
             android:layout_toRightOf="@+id/sunrise_descr_text_view"
             android:layout_toEndOf="@+id/sunrise_descr_text_view" />
@@ -158,15 +167,17 @@
             android:layout_height="wrap_content"
             android:id="@+id/sunset_descr_text_view"
             android:text="@string/sunset_description_text_view"
-            android:layout_below="@id/sunrise_text_view"
-            />
+            android:layout_below="@+id/sunrise_descr_text_view"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="14dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/sunset_text_view"
-            android:text="100"
             android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
             android:layout_alignTop="@+id/sunset_descr_text_view"
             android:layout_toRightOf="@+id/sunset_descr_text_view"
             android:layout_toEndOf="@+id/sunset_descr_text_view" />
