@@ -5,8 +5,12 @@
         <item>Мм Р.С.</item>
     </string-array>
 
-    <string-array name="pressure_settings_values">
-        <item>1</item>
-        <item>2</item>
+    <string-array name="map_tile_names">
+        <item>Облака</item>
+        <item>Температура</item>
+        <item>Осадки</item>
+        <item>Снег</item>
+        <item>Дождь</item>
+        <item>Ветер</item>
     </string-array>
 </resources>

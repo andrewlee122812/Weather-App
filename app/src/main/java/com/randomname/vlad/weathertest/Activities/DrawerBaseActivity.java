@@ -35,8 +35,8 @@ public class DrawerBaseActivity extends AppCompatActivity {
                         new PrimaryDrawerItem().withName(R.string.main_drawer_item),
                         new PrimaryDrawerItem().withName(R.string.map_drawer_item)
                 )
+                .withSelectedItem(-1)
                 .build();
-
         drawer.setOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
             @Override
             public boolean onItemClick(View view, int i, IDrawerItem iDrawerItem) {
@@ -56,6 +56,7 @@ public class DrawerBaseActivity extends AppCompatActivity {
                             }, 300);
                         } else {
                             drawer.closeDrawer();
+                            drawer.setSelection(-1);
                         }
                         break;
                     case 1:
@@ -71,6 +72,7 @@ public class DrawerBaseActivity extends AppCompatActivity {
                             }, 300);
                         } else {
                             drawer.closeDrawer();
+                            drawer.setSelection(-1);
                         }
                         break;
                     default:

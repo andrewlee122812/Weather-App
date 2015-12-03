@@ -7,6 +7,8 @@
         android:key="pressure_units"
         android:defaultValue="1"
         android:entries="@array/pressure_settings_entries"
-        android:entryValues="@array/pressure_settings_values" />
+        android:entryValues="@array/pressure_settings_values"
+        android:layout="@layout/preferences_item"
+        />
 
 </PreferenceScreen>
