@@ -13,10 +13,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.randomname.vlad.weathertest.API.RestClient;
-import com.randomname.vlad.weathertest.Activities.AddCityActivity;
 import com.randomname.vlad.weathertest.Activities.DetailActivity;
 import com.randomname.vlad.weathertest.Adapters.CitiesWeatherAdapter;
 import com.randomname.vlad.weathertest.Model.BaseResponse;
@@ -30,7 +28,6 @@ import java.util.HashMap;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import io.realm.Realm;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;

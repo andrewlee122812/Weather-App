@@ -14,20 +14,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ObjectAnimator;
 import com.nineoldandroids.view.ViewHelper;
 import com.randomname.vlad.weathertest.API.RestClient;
-import com.randomname.vlad.weathertest.MainActivity;
 import com.randomname.vlad.weathertest.Model.BaseResponse;
 import com.randomname.vlad.weathertest.Model.City;
 import com.randomname.vlad.weathertest.Model.Weather;
@@ -35,8 +31,6 @@ import com.randomname.vlad.weathertest.Model.Wind;
 import com.randomname.vlad.weathertest.R;
 import com.randomname.vlad.weathertest.Util.Misc;
 import com.squareup.picasso.Picasso;
-
-import org.w3c.dom.Text;
 
 import java.util.Date;
 import java.util.List;
@@ -46,7 +40,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import carbon.widget.Button;
 import io.realm.Realm;
-import io.realm.RealmQuery;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;

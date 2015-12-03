@@ -12,25 +12,19 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.AccelerateDecelerateInterpolator;
-import android.widget.Toast;
 
-import com.melnykov.fab.FloatingActionButton;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ArgbEvaluator;
-import com.nineoldandroids.animation.ObjectAnimator;
 import com.nineoldandroids.animation.ValueAnimator;
 import com.randomname.vlad.weathertest.Activities.AddCityActivity;
 import com.randomname.vlad.weathertest.Activities.SettingsActivity;
 import com.randomname.vlad.weathertest.Fragments.CitiesWeatherListFragment;
-import com.randomname.vlad.weathertest.Model.Main;
 import com.randomname.vlad.weathertest.Views.MaterialSearch.MaterialSearchView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.codetail.animation.SupportAnimator;
 import io.codetail.animation.ViewAnimationUtils;
 
 public class MainActivity extends AppCompatActivity {
