@@ -18,6 +18,7 @@ import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ArgbEvaluator;
 import com.nineoldandroids.animation.ValueAnimator;
 import com.randomname.vlad.weathertest.Activities.AddCityActivity;
+import com.randomname.vlad.weathertest.Activities.DrawerBaseActivity;
 import com.randomname.vlad.weathertest.Activities.SettingsActivity;
 import com.randomname.vlad.weathertest.Fragments.CitiesWeatherListFragment;
 import com.randomname.vlad.weathertest.Views.MaterialSearch.MaterialSearchView;
@@ -27,7 +28,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.codetail.animation.ViewAnimationUtils;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends DrawerBaseActivity {
 
     final static String TAG = "Main Activity Tag";
     public final static int ADD_CITY_SUCC_CODE = 200;
@@ -101,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initToolbar() {
-        setSupportActionBar(toolbar);
+        super.initDrawer(toolbar, this.getLocalClassName());
 
         searchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
             @Override

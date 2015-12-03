@@ -33,4 +33,7 @@
     <string name="up_button_content_description">up button</string>
     <string name="voice_search_content_description">voice search button</string>
     <string name="empty_search_content_description">empty search</string>
+    <string name="title_activity_map">Map</string>
+
+    <string name="press_back_again_toast">Press back again to exit</string>
 </resources>

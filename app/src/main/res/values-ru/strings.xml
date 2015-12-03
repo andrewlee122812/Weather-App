@@ -26,4 +26,5 @@
     <string name="up_button_content_description">Кнопка назад</string>
     <string name="voice_search_content_description">Глосовой поиск</string>
     <string name="weather_icon_content_description">Иконка погоды</string>
+    <string name="press_back_again_toast">Нажмите назад еще раз для выхода</string>
 </resources>

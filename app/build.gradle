@@ -17,7 +17,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    packagingOptions{
+    packagingOptions {
         exclude 'META-INF/services/javax.annotation.processing.Processor'
     }
 }
@@ -33,7 +33,12 @@ dependencies {
     compile 'com.squareup.retrofit:retrofit:1.9.0'
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'com.squareup.picasso:picasso:2.5.2'
-    compile 'com.nineoldandroids:library:2.4.0+'
+    compile 'com.nineoldandroids:library:2.4.+'
     compile 'com.github.ozodrukh:CircularReveal:1.1.0'
     compile 'tk.zielony:carbon:0.10.1'
+    compile 'com.google.android.gms:play-services-gcm:8.1.0'
+    compile 'com.google.android.gms:play-services-location:8.1.0'
+    compile('com.mikepenz:materialdrawer:4.3.4@aar') {
+        transitive = true
+    }
 }
