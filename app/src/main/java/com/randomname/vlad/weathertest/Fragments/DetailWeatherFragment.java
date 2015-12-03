@@ -3,6 +3,7 @@ package com.randomname.vlad.weathertest.Fragments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -39,6 +40,8 @@ public class DetailWeatherFragment extends Fragment{
 
     @Bind(R.id.detail_recycler_view)
     RecyclerView recyclerView;
+    @Bind(R.id.refresh_layout)
+    SwipeRefreshLayout refreshLayout;
 
     DetailWeatherAdapter adapter;
     ArrayList<ForecastListItem> forecastListItems;
@@ -65,6 +68,13 @@ public class DetailWeatherFragment extends Fragment{
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(new SpaceItemDecorator(4));
+
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getWeatherInfoViaNetwork();
+            }
+        });
 
         getWeatherInfo();
 
@@ -115,6 +125,10 @@ public class DetailWeatherFragment extends Fragment{
         RestClient.getInstance(getActivity()).getForecast(cityId, 16, new Callback<Forecast>() {
             @Override
             public void success(Forecast forecast, Response response) {
+                if (refreshLayout.isRefreshing()) {
+                    refreshLayout.setRefreshing(false);
+                }
+
                 List<ForecastListItem> list = forecast.getList();
                 ForecastListItem item = null;
 
@@ -134,6 +148,10 @@ public class DetailWeatherFragment extends Fragment{
             @Override
             public void failure(RetrofitError error) {
                 Log.e(TAG, error.toString());
+
+                if (refreshLayout.isRefreshing()) {
+                    refreshLayout.setRefreshing(false);
+                }
             }
         });
     }

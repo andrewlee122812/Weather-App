@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -41,6 +42,8 @@ public class CitiesWeatherListFragment extends Fragment{
 
     @Bind(R.id.cities_fragment_recycler_view)
     RecyclerView citiesRecyclerView;
+    @Bind(R.id.refresh_layout)
+    SwipeRefreshLayout refreshLayout;
 
     private String cities = ""; // here we have our cities id's
     private HashMap<Long, String> nameHashMap; // hash map with city id | city name. Bad, but don't know how to do it better
@@ -84,6 +87,13 @@ public class CitiesWeatherListFragment extends Fragment{
         citiesRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         citiesRecyclerView.setAdapter(adapter);
         citiesRecyclerView.addItemDecoration(new SpaceItemDecorator(4));
+
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                loadWeatherViaNetwork();
+            }
+        });
 
         mSharedPrefsChangeListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
             @Override
@@ -146,6 +156,10 @@ public class CitiesWeatherListFragment extends Fragment{
             @Override
             public void success(GroupWeatherResponse groupWeatherResponse, Response response) {
 
+                if (refreshLayout.isRefreshing()) {
+                    refreshLayout.setRefreshing(false);
+                }
+
                 for (BaseResponse baseResponse : groupWeatherResponse.getList()) {
                     baseResponse.setDisplayName(nameHashMap.get(baseResponse.getId()));
                 }
@@ -162,6 +176,10 @@ public class CitiesWeatherListFragment extends Fragment{
             @Override
             public void failure(RetrofitError error) {
                 Log.e(TAG, error.toString());
+
+                if (refreshLayout.isRefreshing()) {
+                    refreshLayout.setRefreshing(false);
+                }
             }
         });
     }

@@ -6,11 +6,19 @@
     android:background="#E0E0E0"
     >
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/cities_fragment_recycler_view"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:overScrollMode="never"
-        />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        >
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/cities_fragment_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="never"
+            />
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </RelativeLayout>
