@@ -3,6 +3,7 @@ package com.randomname.vlad.weathertest;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -144,7 +145,14 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick(R.id.add_fb)
     public void onAddClick() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            animatePreLollipop();
+        } else {
+            animateLollipop();
+        }
+    }
 
+    private void animatePreLollipop() {
         int cx = (circleRevealView.getLeft() + circleRevealView.getRight());
         int cy = (circleRevealView.getTop() + circleRevealView.getBottom());
 
@@ -184,12 +192,13 @@ public class MainActivity extends AppCompatActivity {
                         circleRevealView.setVisibility(View.INVISIBLE);
                         circleRevealView.setClickable(false);
                     }
-                }, 300);
+                }, 400);
             }
 
             @Override
             public void onAnimationCancel(Animator animation) {
-
+                circleRevealView.setVisibility(View.INVISIBLE);
+                circleRevealView.setClickable(false);
             }
 
             @Override
@@ -199,8 +208,67 @@ public class MainActivity extends AppCompatActivity {
         });
 
         animatorSet.playTogether(animator, colorAnimator);
-        animatorSet.setInterpolator(new AccelerateDecelerateInterpolator());
-        animatorSet.setDuration(350);
+        animatorSet.setDuration(500);
+        animatorSet.start();
+    }
+
+    private void animateLollipop() {
+        int cx = (circleRevealView.getLeft() + circleRevealView.getRight());
+        int cy = (circleRevealView.getTop() + circleRevealView.getBottom());
+
+        // get the final radius for the clipping circle
+        int dx = Math.max(cx, circleRevealView.getWidth() - cx);
+        int dy = Math.max(cy, circleRevealView.getHeight() - cy);
+        float finalRadius = (float) Math.hypot(dx, dy);
+
+        android.animation.AnimatorSet animatorSet = new android.animation.AnimatorSet();
+
+        android.animation.Animator anim = android.view.ViewAnimationUtils.createCircularReveal(circleRevealView, cx, cy, 0, finalRadius);
+        android.animation.ValueAnimator colorAnimator = android.animation.ValueAnimator.ofObject(new android.animation.ArgbEvaluator(), Color.parseColor("#00897B"), Color.parseColor("#80CBC4"));
+
+        colorAnimator.addUpdateListener(new android.animation.ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(android.animation.ValueAnimator animation) {
+                circleRevealView.setBackgroundColor((int) animation.getAnimatedValue());
+            }
+        });
+
+        animatorSet.addListener(new android.animation.Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(android.animation.Animator animation) {
+                circleRevealView.setVisibility(View.VISIBLE);
+                circleRevealView.setClickable(true);
+            }
+
+            @Override
+            public void onAnimationEnd(android.animation.Animator animation) {
+                Intent intent = new Intent(MainActivity.this, AddCityActivity.class);
+                startActivityForResult(intent, ADD_CITY_SUCC_CODE);
+                overridePendingTransition(R.anim.fade_in, R.anim.stay_still);
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        circleRevealView.setVisibility(View.INVISIBLE);
+                        circleRevealView.setClickable(false);
+                    }
+                }, 400);
+            }
+
+            @Override
+            public void onAnimationCancel(android.animation.Animator animation) {
+                circleRevealView.setVisibility(View.INVISIBLE);
+                circleRevealView.setClickable(false);
+            }
+
+            @Override
+            public void onAnimationRepeat(android.animation.Animator animation) {
+
+            }
+        });
+
+        animatorSet.playTogether(anim, colorAnimator);
+        animatorSet.setDuration(500);
         animatorSet.start();
     }
 }

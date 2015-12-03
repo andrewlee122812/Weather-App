@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.preference.PreferenceManager;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -88,6 +89,7 @@ public class CitiesWeatherListFragment extends Fragment{
         citiesRecyclerView.setAdapter(adapter);
         citiesRecyclerView.addItemDecoration(new SpaceItemDecorator(4));
         citiesRecyclerView.setHasFixedSize(true);
+        citiesRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
