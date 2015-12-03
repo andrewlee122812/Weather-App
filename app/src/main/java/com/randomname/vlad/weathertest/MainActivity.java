@@ -1,6 +1,7 @@
 package com.randomname.vlad.weathertest;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
@@ -12,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorSet;
@@ -19,6 +21,7 @@ import com.nineoldandroids.animation.ArgbEvaluator;
 import com.nineoldandroids.animation.ValueAnimator;
 import com.randomname.vlad.weathertest.Activities.AddCityActivity;
 import com.randomname.vlad.weathertest.Activities.DrawerBaseActivity;
+import com.randomname.vlad.weathertest.Activities.MapActivity;
 import com.randomname.vlad.weathertest.Activities.SettingsActivity;
 import com.randomname.vlad.weathertest.Fragments.CitiesWeatherListFragment;
 import com.randomname.vlad.weathertest.Views.MaterialSearch.MaterialSearchView;
