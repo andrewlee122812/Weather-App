@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Weather test</string>
+    <string name="action_settings">Настройки</string>
+    <string name="add_city_edit_text_hint">Введите город</string>
+    <string name="day_text_view_description">День</string>
+    <string name="evening_text_view_description">Вечер</string>
+    <string name="humidity_description_text_view">Влажность</string>
+    <string name="morning_text_view_description">Утро</string>
+    <string name="moscow_display_name">Москва</string>
+    <string name="night_text_view_description">Ночь</string>
+    <string name="pressure_description_text_view">Давление</string>
+    <string name="pressure_value_settings_summary">Выберите еденицы измерения давления</string>
+    <string name="pressure_value_settings_title">Измерение давления</string>
+    <string name="save_button_text">Сохранить город</string>
+    <string name="search_hint">Поиск</string>
+    <string name="sp_display_name">Санкт-Петербург</string>
+    <string name="sunrise_description_text_view">Восход</string>
+    <string name="sunset_description_text_view">Закат</string>
+    <string name="wind_description_text_view">Ветер</string>
+    <string name="wind_units">М/С</string>
+    <string name="title_activity_add_city">Добавить новый город</string>
+    <string name="title_activity_detail">Прогноз</string>
+    <string name="title_activity_settings">Настройки</string>
+</resources>

@@ -8,8 +8,8 @@
 
     <string name="weather_api_key">46c6db58b61ac29d0c2986240b230924</string>
     <string name="title_activity_launcher">LauncherActivity</string>
-    <string name="title_activity_detail">DetailActivity</string>
-    <string name="title_activity_add_city">AddCityActivity</string>
+    <string name="title_activity_detail">Forecast</string>
+    <string name="title_activity_add_city">Add new city</string>
     <string name="morning_text_view_description">Morning</string>
     <string name="day_text_view_description">Day</string>
     <string name="evening_text_view_description">Evening</string>
@@ -23,10 +23,10 @@
 
     <string name="wind_units">Mps</string>
 
-    <string name="title_activity_settings">SettingsActivity</string>
-    <string name="pressure_value_settings_title">Pressure value</string>
+    <string name="title_activity_settings">Настройки</string>
+    <string name="pressure_value_settings_title">Pressure units</string>
     <string name="pressure_value_settings_summary">Select pressure measure units</string>
     <string name="moscow_display_name">Moscow</string>
     <string name="sp_display_name">Saint Petersburg</string>
-    <string name="add_city_edit_text_hint">Type new city name</string>
+    <string name="add_city_edit_text_hint">Type new city</string>
 </resources>

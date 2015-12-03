@@ -16,6 +16,7 @@ import com.randomname.vlad.weathertest.Model.ForecastListItem;
 import com.randomname.vlad.weathertest.Model.Weather;
 import com.randomname.vlad.weathertest.Model.Wind;
 import com.randomname.vlad.weathertest.R;
+import com.randomname.vlad.weathertest.Util.Misc;
 import com.squareup.picasso.Picasso;
 
 import java.util.Date;
@@ -27,10 +28,17 @@ public class DetailWeatherAdapter extends RecyclerView.Adapter<RecyclerView.View
     private Context mContext;
     private List<ForecastListItem> forecastListItems;
     private BaseResponse baseResponseHeaderInfo = null;
+    private int unitType;
+    private String unitString;
+
 
     public DetailWeatherAdapter(Context context, List<ForecastListItem> forecastListItems) {
         this.mContext = context;
         this.forecastListItems = forecastListItems;
+
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(mContext);
+        unitType = Integer.parseInt(sharedPref.getString("pressure_units", "1"));
+        unitString = mContext.getResources().getStringArray(R.array.pressure_settings_entries)[unitType - 1];
     }
 
     public DetailWeatherAdapter(Context context, List<ForecastListItem> forecastListItems, BaseResponse baseResponse) {
@@ -38,6 +46,10 @@ public class DetailWeatherAdapter extends RecyclerView.Adapter<RecyclerView.View
         this.forecastListItems = forecastListItems;
         this.baseResponseHeaderInfo = baseResponse;
         sizeDiff = 1;
+
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(mContext);
+        unitType = Integer.parseInt(sharedPref.getString("pressure_units", "1"));
+        unitString = mContext.getResources().getStringArray(R.array.pressure_settings_entries)[unitType - 1];
     }
 
 
@@ -103,16 +115,12 @@ public class DetailWeatherAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         HeaderViewHolder customViewHolder = (HeaderViewHolder) holder;
 
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(mContext);
-        int unitType = Integer.parseInt(sharedPref.getString("pressure_units", "1"));
-        String unitString = mContext.getResources().getStringArray(R.array.pressure_settings_entries)[unitType - 1];
-
         String name = baseResponseHeaderInfo.getDisplayName();
         String sunRiseString = DateFormat.format("kk:mm", new Date(baseResponseHeaderInfo.getSys().getSunrise() * 1000)).toString();
         String sunSetString = DateFormat.format("kk:mm", new Date(baseResponseHeaderInfo.getSys().getSunset() * 1000)).toString();
         List<Weather> weatherList = baseResponseHeaderInfo.getWeather();
         String description = "";
-        String iconURL = "";
+        int iconResId = 0;
         String temperature = Math.round(baseResponseHeaderInfo.getMain().getTemp()) + " \u2103";
         String pressureString = "";
         String humidity = baseResponseHeaderInfo.getMain().getHumidity() + " %";
@@ -125,7 +133,7 @@ public class DetailWeatherAdapter extends RecyclerView.Adapter<RecyclerView.View
             description = weather.getDescription();
 
             if (!weather.getIcon().isEmpty()) {
-                iconURL = "http://openweathermap.org/img/w/" + weather.getIcon() + ".png";
+                iconResId = Misc.getImageResource(weather.getIcon(), mContext);
             }
         }
 
@@ -160,10 +168,10 @@ public class DetailWeatherAdapter extends RecyclerView.Adapter<RecyclerView.View
         customViewHolder.sunRiseTextView.setText(sunRiseString);
         customViewHolder.sunSetTextView.setText(sunSetString);
 
-        if (!iconURL.isEmpty()) {
-            Picasso.with(mContext).load(iconURL).into(customViewHolder.weatherIcon);
+        if (iconResId > 0) {
+            Picasso.with(mContext).load(iconResId).into(customViewHolder.weatherIcon);
         } else {
-            customViewHolder.weatherIcon.setImageResource(android.R.color.transparent);
+            Picasso.with(mContext).load(R.drawable.unknown).into(customViewHolder.weatherIcon);
         }
     }
 
@@ -171,13 +179,9 @@ public class DetailWeatherAdapter extends RecyclerView.Adapter<RecyclerView.View
         ForecastViewHolder viewHolder = (ForecastViewHolder) holder;
         ForecastListItem item = forecastListItems.get(position);
 
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(mContext);
-        int unitType = Integer.parseInt(sharedPref.getString("pressure_units", "1"));
-        String unitString = mContext.getResources().getStringArray(R.array.pressure_settings_entries)[unitType - 1];
-
-        String dateString = DateFormat.format("dd MMMM kk:mm", new Date(item.getDt() * 1000)).toString();
+        String dateString = DateFormat.format("dd MMMM", new Date(item.getDt() * 1000)).toString();
         String description = "";
-        String iconURL = "";
+        int iconResId = 0;
         String temperature = Math.round((item.getTemp().getMax() + item.getTemp().getMin()) / 2) + " \u2103";
         String pressureString = "";
         String humidity = item.getHumidity() + " %";
@@ -189,7 +193,7 @@ public class DetailWeatherAdapter extends RecyclerView.Adapter<RecyclerView.View
             description = weather.getDescription();
 
             if (!weather.getIcon().isEmpty()) {
-                iconURL = "http://openweathermap.org/img/w/" + weather.getIcon() + ".png";
+                iconResId = Misc.getImageResource(weather.getIcon(), mContext);
             }
         }
 
@@ -224,10 +228,10 @@ public class DetailWeatherAdapter extends RecyclerView.Adapter<RecyclerView.View
         viewHolder.humidityTextView.setText(humidity);
         viewHolder.windTextView.setText(windString);
 
-        if (!iconURL.isEmpty()) {
-            Picasso.with(mContext).load(iconURL).into(viewHolder.weatherIconImageView);
+        if (iconResId > 0) {
+            Picasso.with(mContext).load(iconResId).into(viewHolder.weatherIconImageView);
         } else {
-            viewHolder.weatherIconImageView.setImageResource(android.R.color.transparent);
+            Picasso.with(mContext).load(R.drawable.unknown).into(viewHolder.weatherIconImageView);
         }
     }
 

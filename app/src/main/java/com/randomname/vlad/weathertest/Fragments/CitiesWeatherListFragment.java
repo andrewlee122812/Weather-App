@@ -87,6 +87,7 @@ public class CitiesWeatherListFragment extends Fragment{
         citiesRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         citiesRecyclerView.setAdapter(adapter);
         citiesRecyclerView.addItemDecoration(new SpaceItemDecorator(4));
+        citiesRecyclerView.setHasFixedSize(true);
 
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override

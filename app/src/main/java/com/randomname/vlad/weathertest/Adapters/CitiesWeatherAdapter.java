@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import com.randomname.vlad.weathertest.Model.BaseResponse;
 import com.randomname.vlad.weathertest.Model.Weather;
 import com.randomname.vlad.weathertest.Model.Wind;
 import com.randomname.vlad.weathertest.R;
+import com.randomname.vlad.weathertest.Util.Misc;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -99,7 +101,7 @@ public class CitiesWeatherAdapter extends RecyclerView.Adapter<RecyclerView.View
         String sunSetString = DateFormat.format("kk:mm", new Date(baseResponse.getSys().getSunset() * 1000)).toString();
         List<Weather> weatherList = baseResponse.getWeather();
         String description = "";
-        String iconURL = "";
+        int iconResId = 0;
         String temperature = Math.round(baseResponse.getMain().getTemp()) + " \u2103";
         String pressureString = "";
         String humidity = baseResponse.getMain().getHumidity() + " %";
@@ -112,7 +114,7 @@ public class CitiesWeatherAdapter extends RecyclerView.Adapter<RecyclerView.View
             description = weather.getDescription();
 
             if (!weather.getIcon().isEmpty()) {
-                iconURL = "http://openweathermap.org/img/w/" + weather.getIcon() + ".png";
+                iconResId = Misc.getImageResource(weather.getIcon(), mContext);
             }
         }
 
@@ -148,10 +150,10 @@ public class CitiesWeatherAdapter extends RecyclerView.Adapter<RecyclerView.View
         customViewHolder.sunRiseTextView.setText(sunRiseString);
         customViewHolder.sunSetTextView.setText(sunSetString);
 
-        if (!iconURL.isEmpty()) {
-            Picasso.with(mContext).load(iconURL).into(customViewHolder.weatherIcon);
+        if (iconResId > 0) {
+            Picasso.with(mContext).load(iconResId).into(customViewHolder.weatherIcon);
         } else {
-            customViewHolder.weatherIcon.setImageResource(android.R.color.transparent);
+            Picasso.with(mContext).load(R.drawable.unknown).into(customViewHolder.weatherIcon);
         }
     }
 
