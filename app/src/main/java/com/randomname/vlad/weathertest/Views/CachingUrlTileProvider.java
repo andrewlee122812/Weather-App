@@ -7,11 +7,15 @@ import android.util.Log;
 import com.google.android.gms.maps.model.Tile;
 import com.google.android.gms.maps.model.TileOverlayOptions;
 import com.google.android.gms.maps.model.TileProvider;
+import com.nostra13.universalimageloader.cache.disc.impl.LimitedAgeDiskCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.utils.StorageUtils;
+import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 
 /**
  * <p>Google Maps Android V2 tile overlay provider for cached URL tiles. Caches in memory and/or on disk.</p>
@@ -34,11 +38,14 @@ public abstract class CachingUrlTileProvider implements TileProvider {
     public CachingUrlTileProvider(Context ctx, int mTileWidth, int mTileHeight) {
         this.mTileWidth = mTileWidth;
         this.mTileHeight = mTileHeight;
+        File cacheDir = StorageUtils.getOwnCacheDirectory(ctx, "MapCacheDir");
 
         // if ImageLoader has not been instantiated by parent application yet
         if (!ImageLoader.getInstance().isInited()) {
             // Create global configuration and initialize ImageLoader with this config
-            ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(ctx).build();
+            ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(ctx)
+                    .diskCache(new LimitedAgeDiskCache(cacheDir, 60 * 60))
+                    .build();
             ImageLoader.getInstance().init(config);
         }
 
@@ -72,6 +79,7 @@ public abstract class CachingUrlTileProvider implements TileProvider {
         if (bitmap == null) {
             return null;
         }
+
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
         return stream.toByteArray();

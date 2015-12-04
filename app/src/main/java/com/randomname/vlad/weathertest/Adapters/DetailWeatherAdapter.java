@@ -208,6 +208,14 @@ public class DetailWeatherAdapter extends RecyclerView.Adapter<RecyclerView.View
                 pressureString += Math.round(item.getPressure());
         }
 
+        if (item.getHumidity() == 0) {
+            viewHolder.humidityTextView.setVisibility(View.GONE);
+            viewHolder.humidityDesrTextView.setVisibility(View.GONE);
+        } else {
+            viewHolder.humidityTextView.setVisibility(View.VISIBLE);
+            viewHolder.humidityDesrTextView.setVisibility(View.VISIBLE);
+        }
+
         double d = item.getSpeed();
         if ((d - (int)d)!= 0) {
             windString += String.format("%.1f", d) + " " + mContext.getString(R.string.wind_units);
@@ -242,7 +250,7 @@ public class DetailWeatherAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     public class ForecastViewHolder extends RecyclerView.ViewHolder {
         protected TextView dateTextView, eveningTempTextView, morningTempTextView, dayTempTextView, nightTempTextView;
-        protected TextView descriptionTextView, temperatureTextView, pressureTextView, humidityTextView, windTextView;
+        protected TextView descriptionTextView, temperatureTextView, pressureTextView, humidityDesrTextView, humidityTextView, windTextView;
         protected ImageView weatherIconImageView;
 
         public ForecastViewHolder(View view) {
@@ -256,6 +264,7 @@ public class DetailWeatherAdapter extends RecyclerView.Adapter<RecyclerView.View
             temperatureTextView = (TextView) view.findViewById(R.id.temperature_text_view);
             weatherIconImageView = (ImageView) view.findViewById(R.id.weather_icon_image_view);
             pressureTextView = (TextView) view.findViewById(R.id.pressure_text_view);
+            humidityDesrTextView = (TextView) view.findViewById(R.id.humidity_descr_text_view);
             humidityTextView = (TextView) view.findViewById(R.id.humidity_text_view);
             windTextView = (TextView) view.findViewById(R.id.wind_text_view);
         }
