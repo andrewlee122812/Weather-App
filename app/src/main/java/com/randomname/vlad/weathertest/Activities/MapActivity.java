@@ -1,5 +1,11 @@
 package com.randomname.vlad.weathertest.Activities;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationManager;
+import android.os.Build;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -10,6 +16,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
@@ -32,7 +40,7 @@ import butterknife.ButterKnife;
 public class MapActivity extends DrawerBaseActivity {
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
-    private String OWM_TILE_URL =  "http://tile.openweathermap.org/map/%s/%d/%d/%d.png";
+    private String OWM_TILE_URL = "http://tile.openweathermap.org/map/%s/%d/%d/%d.png";
     private String[] tileOverlayValues;
     private TileOverlay tileOverlay;
 
@@ -93,6 +101,7 @@ public class MapActivity extends DrawerBaseActivity {
 
     private void setUpMap() {
         changeMapOverlay();
+        mMap.setMyLocationEnabled(true);
     }
 
     private void changeMapOverlay() {
